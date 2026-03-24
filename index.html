@@ -1486,7 +1486,7 @@
         const GEMINI_API_KEY = 'AIzaSyDwpKrNvFXTnBTCWlJl7IhAP6Qs6OcmMY4';
         let ai = null;
         if (GEMINI_API_KEY && GEMINI_API_KEY !== 'YOUR_API_KEY_HERE') {
-            ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY, dangerouslyAllowBrowser: true });
+            ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
         }
 
         const myCanvas = document.getElementById('confetti-canvas');
@@ -2196,7 +2196,7 @@
                 const imagePrompt = `A soft, ethereal, aesthetic flatlay or scene inspired by: ${coffee} coffee, shopping at ${shopping}, and ${perfume} perfume. Iridescent pastels, blush and lavender tones, dreamy, magical, luxurious, elegant. No text in image.`;
                 
                 const imageResponse = await ai.models.generateContent({
-                    model: 'gemini-3.1-flash-image-preview',
+                    model: 'gemini-2.5-flash-image',
                     contents: {
                         parts: [
                             { text: imagePrompt }
@@ -2204,8 +2204,7 @@
                     },
                     config: {
                         imageConfig: {
-                            aspectRatio: "16:9",
-                            imageSize: "1K"
+                            aspectRatio: "16:9"
                         }
                     }
                 });
@@ -2213,7 +2212,7 @@
                 let imageUrl = '';
                 for (const part of imageResponse.candidates[0].content.parts) {
                     if (part.inlineData) {
-                        imageUrl = `data:image/png;base64,${part.inlineData.data}`;
+                        imageUrl = `data:${part.inlineData.mimeType || 'image/png'};base64,${part.inlineData.data}`;
                         break;
                     }
                 }
@@ -2232,7 +2231,7 @@ Tone: elegant, slightly sarcastic, princess energy, warm.
 End with a sweet "Happy Birthday Sara" from her work bestie Suhail.`;
 
                 const storyResponse = await ai.models.generateContent({
-                    model: 'gemini-3.1-pro-preview',
+                    model: 'gemini-3-flash-preview',
                     contents: storyPrompt
                 });
 
@@ -2264,11 +2263,13 @@ End with a sweet "Happy Birthday Sara" from her work bestie Suhail.`;
                 simBtn.classList.remove('muted');
 
             } catch (error) {
-                console.error(error);
+                console.error("Gemini API Error:", error);
                 clearInterval(textInterval);
                 simLoading.style.display = 'none';
                 simInitial.style.display = 'flex';
-                simError.textContent = "The universe is a bit busy right now. Try again later ✨";
+                
+                const errorMessage = error.message || error.toString();
+                simError.textContent = `Oops! ${errorMessage}. Please try again ✨`;
                 simError.style.display = 'block';
                 
                 simBtn.disabled = false;

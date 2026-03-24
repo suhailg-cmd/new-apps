@@ -8,7 +8,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Raleway:wght@300;400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script async src="https://unpkg.com/es-module-shims@1.8.0/dist/es-module-shims.js"></script>
     <script type="importmap">
       {
@@ -1324,83 +1323,62 @@
         </div>
     </section>
 
-    <!-- AI SECTION — THE UNIVERSE SPEAKS -->
+    <!-- AI SECTION — THE SARA SIMULATOR -->
     <section id="s-universe">
         <div class="universe-gradient"></div>
-        <h2 class="universe-header fade-in-element">The Universe Has Things to Say, Sara</h2>
+        <h2 class="universe-header fade-in-element">The Sara Simulator</h2>
         
         <div class="universe-panels fade-in-element">
-            <!-- LEFT PANEL — MAKE A WISH -->
-            <div class="universe-panel">
-                <h3 class="panel-heading">Make a Wish</h3>
-                <p class="panel-subtext">Type anything. Let the universe handle the rest.</p>
+            <!-- LEFT PANEL — DESIGN YOUR DAY -->
+            <div class="universe-panel" id="sim-input-panel">
+                <h3 class="panel-heading">Design Your Day</h3>
+                <p class="panel-subtext">Coffee, shopping, perfume. The holy trinity.</p>
                 <div class="wand-icon">✨</div>
                 
-                <div id="wish-input-container" style="width: 100%;">
-                    <input type="text" id="wish-input" class="universe-input" placeholder="I wish for...">
-                    <button id="wish-btn" class="universe-btn muted">Bring it to life ✨</button>
-                </div>
-
-                <div id="wish-loading" style="display: none; flex-direction: column; align-items: center; width: 100%; margin-top: 1rem;">
-                    <div class="pulsing-orb"></div>
-                    <p id="wish-loading-text" style="margin-top: 1.5rem; color: #9b7fa6; font-style: italic; font-family: 'Cormorant Garamond', serif; font-size: 1.1rem;">The universe is listening...</p>
-                </div>
-
-                <div id="wish-result" style="display: none; flex-direction: column; align-items: center; width: 100%; opacity: 0; transition: opacity 1s ease;">
-                    <div class="image-frame" style="padding: 10px; background: rgba(255,255,255,0.3); border-radius: 16px; border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 0 20px rgba(255,255,255,0.5); width: 100%;">
-                        <img id="wish-image" src="" alt="Your Wish" style="width: 100%; border-radius: 8px; display: block;" referrerPolicy="no-referrer">
+                <div style="width: 100%; display: flex; flex-direction: column; gap: 1.5rem; margin-top: 1rem;">
+                    <div>
+                        <label style="font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: #7a4b56; margin-bottom: 0.5rem; display: block;">1. The Coffee Order</label>
+                        <input type="text" id="sim-coffee" class="universe-input" placeholder="e.g. Iced Spanish Latte, V60..." maxlength="50">
                     </div>
-                    <p id="wish-caption" style="margin-top: 1.5rem; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.2rem; color: #d4a5a5; text-align: center; line-height: 1.4;"></p>
-                    <button id="wish-reset-btn" style="margin-top: 1.5rem; background: none; border: none; color: #9b7fa6; font-family: 'Raleway', sans-serif; cursor: pointer; text-decoration: underline; font-size: 0.9rem; align-self: flex-end;">Wish again ↺</button>
+                    <div>
+                        <label style="font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: #7a4b56; margin-bottom: 0.5rem; display: block;">2. The Shopping Spree</label>
+                        <input type="text" id="sim-shopping" class="universe-input" placeholder="e.g. Dubai Mall, Milan, Paris..." maxlength="50">
+                    </div>
+                    <div>
+                        <label style="font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: #7a4b56; margin-bottom: 0.5rem; display: block;">3. The Signature Scent</label>
+                        <input type="text" id="sim-perfume" class="universe-input" placeholder="e.g. Baccarat Rouge, Le Labo..." maxlength="50">
+                    </div>
+                    
+                    <button id="sim-btn" class="universe-btn muted" style="margin-top: 1rem;">Generate My Vibe ✨</button>
                 </div>
-                <div id="wish-error" class="error-state" style="display: none;"></div>
             </div>
 
-            <!-- RIGHT PANEL — YOUR BIRTHDAY READING -->
-            <div class="universe-panel">
-                <h3 class="panel-heading">Your Reading</h3>
-                <p class="panel-subtext">Three questions. One year. All yours.</p>
+            <!-- RIGHT PANEL — YOUR BIRTHDAY VIBE -->
+            <div class="universe-panel" id="sim-result-panel" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 400px; position: relative; overflow: hidden;">
                 
-                <div id="reading-progress" style="display: flex; justify-content: center; gap: 10px; margin-bottom: 2rem;">
-                    <div class="progress-orb active"></div>
-                    <div class="progress-orb"></div>
-                    <div class="progress-orb"></div>
+                <!-- Initial State -->
+                <div id="sim-initial" style="display: flex; flex-direction: column; align-items: center; width: 100%; transition: opacity 0.5s ease;">
+                    <h3 class="panel-heading">Your Birthday Vibe</h3>
+                    <p class="panel-subtext">Waiting for your selections...</p>
+                    <div class="wand-icon" style="opacity: 0.5; margin-top: 2rem;">🔮</div>
                 </div>
 
-                <div id="reading-questions" style="width: 100%;">
-                    <div class="reading-q-card active" id="rq1">
-                        <p style="font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: #7a4b56; margin-bottom: 1rem; text-align: center;">What's one word for how this year felt?</p>
-                        <input type="text" id="r-input-1" class="universe-input" placeholder="Your word...">
-                        <button class="universe-btn next-q-btn muted" style="display: none;">Next ✨</button>
-                    </div>
-                    <div class="reading-q-card" id="rq2" style="display: none; opacity: 0; transition: opacity 0.5s ease;">
-                        <p style="font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: #7a4b56; margin-bottom: 1rem; text-align: center;">What's one thing you're ready to leave behind?</p>
-                        <input type="text" id="r-input-2" class="universe-input" placeholder="Let it go...">
-                        <button class="universe-btn next-q-btn muted" style="display: none;">Next ✨</button>
-                    </div>
-                    <div class="reading-q-card" id="rq3" style="display: none; opacity: 0; transition: opacity 0.5s ease;">
-                        <p style="font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: #7a4b56; margin-bottom: 1rem; text-align: center;">What do you want more of in the year ahead?</p>
-                        <input type="text" id="r-input-3" class="universe-input" placeholder="More of...">
-                        <button id="reveal-reading-btn" class="universe-btn muted" style="display: none; font-size: 1.1rem; padding: 1.2rem;">Reveal my reading ✨</button>
-                    </div>
+                <!-- Loading State -->
+                <div id="sim-loading" style="display: none; flex-direction: column; align-items: center; width: 100%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                    <div class="pulsing-orb"></div>
+                    <p id="sim-loading-text" style="margin-top: 1.5rem; color: #9b7fa6; font-style: italic; font-family: 'Cormorant Garamond', serif; font-size: 1.1rem;">Brewing coffee, booking flights, spraying perfume...</p>
                 </div>
 
-                <div id="reading-loading" style="display: none; flex-direction: column; align-items: center; width: 100%; margin-top: 1rem;">
-                    <div class="starfield-loader">
-                        <div class="star"></div><div class="star"></div><div class="star"></div>
+                <!-- Result State -->
+                <div id="sim-result" style="display: none; flex-direction: column; align-items: center; width: 100%; opacity: 0; transition: opacity 1s ease; position: absolute; top: 0; left: 0; height: 100%; padding: 2.5rem; box-sizing: border-box;">
+                    <div class="image-frame" style="padding: 10px; background: rgba(255,255,255,0.3); border-radius: 16px; border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 0 20px rgba(255,255,255,0.5); width: 100%; max-height: 200px; overflow: hidden; margin-bottom: 1.5rem; flex-shrink: 0;">
+                        <img id="sim-image" src="" alt="Your Vibe" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;" referrerPolicy="no-referrer">
                     </div>
-                    <p id="reading-loading-text" style="margin-top: 1.5rem; color: #9b7fa6; font-style: italic; font-family: 'Cormorant Garamond', serif; font-size: 1.1rem;">Reading the stars...</p>
+                    <div id="sim-story" style="font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: #7a4b56; text-align: left; line-height: 1.6; overflow-y: auto; padding-right: 10px; flex-grow: 1; width: 100%;"></div>
+                    <button id="sim-reset-btn" style="margin-top: 1.5rem; background: none; border: none; color: #9b7fa6; font-family: 'Raleway', sans-serif; cursor: pointer; text-decoration: underline; font-size: 0.9rem; flex-shrink: 0;">Play again ↺</button>
                 </div>
-
-                <div id="reading-result" style="display: none; opacity: 0; transition: opacity 1s ease; width: 100%;">
-                    <div id="reading-content-panel" style="padding: 1.5rem; background: transparent;">
-                        <div id="reading-text" style="font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; line-height: 1.9; color: #5c4d5c; text-align: left;">
-                            <!-- Content injected here -->
-                        </div>
-                    </div>
-                    <button id="save-reading-btn" class="universe-btn" style="margin-top: 1.5rem;">Save my reading</button>
-                </div>
-                <div id="reading-error" class="error-state" style="display: none;"></div>
+                
+                <div id="sim-error" class="error-state" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%;"></div>
             </div>
         </div>
     </section>
@@ -2152,49 +2130,70 @@
             sara.style.top = 'auto';
         }
 
-        // --- AI SECTION: THE UNIVERSE SPEAKS LOGIC ---
+        // --- AI SECTION: THE SARA SIMULATOR LOGIC ---
         
-        // Wish Panel
-        const wishInput = document.getElementById('wish-input');
-        const wishBtn = document.getElementById('wish-btn');
-        const wishLoading = document.getElementById('wish-loading');
-        const wishLoadingText = document.getElementById('wish-loading-text');
-        const wishResult = document.getElementById('wish-result');
-        const wishImage = document.getElementById('wish-image');
-        const wishCaption = document.getElementById('wish-caption');
-        const wishResetBtn = document.getElementById('wish-reset-btn');
-        const wishInputContainer = document.getElementById('wish-input-container');
-        const wishError = document.getElementById('wish-error');
+        const simCoffee = document.getElementById('sim-coffee');
+        const simShopping = document.getElementById('sim-shopping');
+        const simPerfume = document.getElementById('sim-perfume');
+        const simBtn = document.getElementById('sim-btn');
+        
+        const simInitial = document.getElementById('sim-initial');
+        const simLoading = document.getElementById('sim-loading');
+        const simLoadingText = document.getElementById('sim-loading-text');
+        const simResult = document.getElementById('sim-result');
+        const simImage = document.getElementById('sim-image');
+        const simStory = document.getElementById('sim-story');
+        const simResetBtn = document.getElementById('sim-reset-btn');
+        const simError = document.getElementById('sim-error');
 
-        wishInput.addEventListener('input', () => {
-            if (wishInput.value.trim().length > 0) {
-                wishBtn.classList.remove('muted');
-            } else {
-                wishBtn.classList.add('muted');
-            }
+        const inputs = [simCoffee, simShopping, simPerfume];
+
+        inputs.forEach(input => {
+            input.addEventListener('input', () => {
+                if (simCoffee.value.trim() && simShopping.value.trim() && simPerfume.value.trim()) {
+                    simBtn.classList.remove('muted');
+                } else {
+                    simBtn.classList.add('muted');
+                }
+            });
         });
 
-        wishBtn.addEventListener('click', async () => {
-            const wish = wishInput.value.trim();
-            if (!wish) return;
+        simBtn.addEventListener('click', async () => {
+            if (simBtn.disabled) return;
+            
+            const coffee = simCoffee.value.trim();
+            const shopping = simShopping.value.trim();
+            const perfume = simPerfume.value.trim();
+            
+            if (!coffee || !shopping || !perfume) return;
 
-            wishInputContainer.style.display = 'none';
-            wishError.style.display = 'none';
-            wishLoading.style.display = 'flex';
-            wishResult.style.display = 'none';
-            wishResult.style.opacity = 0;
+            simBtn.disabled = true;
+            simBtn.classList.add('muted');
+            simBtn.textContent = 'Generating...';
 
-            const loadingTexts = ["The universe is listening...", "Almost there...", "Something beautiful is forming..."];
+            simInitial.style.display = 'none';
+            simError.style.display = 'none';
+            simResult.style.display = 'none';
+            simResult.style.opacity = 0;
+            simLoading.style.display = 'flex';
+
+            const loadingTexts = [
+                "Brewing the perfect coffee...", 
+                "Booking a flight for shopping...", 
+                "Spraying the signature scent...",
+                "The universe is aligning your vibe..."
+            ];
             let textIdx = 0;
             const textInterval = setInterval(() => {
                 textIdx = (textIdx + 1) % loadingTexts.length;
-                wishLoadingText.textContent = loadingTexts[textIdx];
+                simLoadingText.textContent = loadingTexts[textIdx];
             }, 2500);
 
             try {
                 if (!ai) throw new Error("API Key missing");
                 
-                const imagePrompt = `${wish}...illustrated in a soft ethereal style, iridescent pastels, blush and lavender tones, dreamy and magical, like a scene from a fairy tale. No text in image.`;
+                // 1. Generate Image
+                const imagePrompt = `A soft, ethereal, aesthetic flatlay or scene inspired by: ${coffee} coffee, shopping at ${shopping}, and ${perfume} perfume. Iridescent pastels, blush and lavender tones, dreamy, magical, luxurious, elegant. No text in image.`;
                 
                 const imageResponse = await ai.models.generateContent({
                     model: 'gemini-3.1-flash-image-preview',
@@ -2205,7 +2204,7 @@
                     },
                     config: {
                         imageConfig: {
-                            aspectRatio: "1:1",
+                            aspectRatio: "16:9",
                             imageSize: "1K"
                         }
                     }
@@ -2221,180 +2220,73 @@
                 
                 if (!imageUrl) throw new Error("No image generated");
 
-                const captionResponse = await ai.models.generateContent({
-                    model: 'gemini-3-flash-preview',
-                    contents: `Write a short, poetic one-line caption (max 12 words) about this wish coming true: "${wish}". Tone: ethereal, magical, soft.`,
-                });
+                // 2. Generate Story
+                const storyPrompt = `You are a warm, witty, slightly magical narrator. 
+Sara is celebrating her birthday. She has chosen her holy trinity for the perfect day:
+- Coffee: ${coffee}
+- Shopping: ${shopping}
+- Perfume: ${perfume}
 
-                clearInterval(textInterval);
-                wishImage.src = imageUrl;
-                wishCaption.textContent = captionResponse.text.replace(/["']/g, '');
-                
-                wishLoading.style.display = 'none';
-                wishResult.style.display = 'flex';
-                setTimeout(() => { wishResult.style.opacity = 1; }, 100);
+Write a short, funny, ethereal, and luxurious paragraph (max 4 sentences) describing her perfect birthday vibe based on these choices. 
+Tone: elegant, slightly sarcastic, princess energy, warm. 
+End with a sweet "Happy Birthday Sara" from her work bestie Suhail.`;
 
-            } catch (error) {
-                console.error(error);
-                clearInterval(textInterval);
-                wishLoading.style.display = 'none';
-                wishInputContainer.style.display = 'block';
-                wishError.textContent = "The universe is a bit busy right now. Try again later ✨";
-                wishError.style.display = 'block';
-            }
-        });
-
-        wishResetBtn.addEventListener('click', () => {
-            wishResult.style.opacity = 0;
-            setTimeout(() => {
-                wishResult.style.display = 'none';
-                wishInput.value = '';
-                wishBtn.classList.add('muted');
-                wishInputContainer.style.display = 'block';
-            }, 500);
-        });
-
-        // Reading Panel
-        const rInput1 = document.getElementById('r-input-1');
-        const rInput2 = document.getElementById('r-input-2');
-        const rInput3 = document.getElementById('r-input-3');
-        const nextBtns = document.querySelectorAll('.next-q-btn');
-        const revealBtn = document.getElementById('reveal-reading-btn');
-        const qCards = document.querySelectorAll('.reading-q-card');
-        const progressOrbs = document.querySelectorAll('.progress-orb');
-        const readingLoading = document.getElementById('reading-loading');
-        const readingLoadingText = document.getElementById('reading-loading-text');
-        const readingResult = document.getElementById('reading-result');
-        const readingTextContainer = document.getElementById('reading-text');
-        const readingQuestionsContainer = document.getElementById('reading-questions');
-        const saveReadingBtn = document.getElementById('save-reading-btn');
-        const readingError = document.getElementById('reading-error');
-
-        const inputs = [rInput1, rInput2, rInput3];
-        const buttons = [...nextBtns, revealBtn];
-
-        inputs.forEach((input, index) => {
-            input.addEventListener('input', () => {
-                const btn = buttons[index];
-                if (input.value.trim().length > 0) {
-                    btn.classList.remove('muted');
-                    btn.style.display = 'block';
-                } else {
-                    btn.classList.add('muted');
-                }
-            });
-        });
-
-        nextBtns.forEach((btn, index) => {
-            btn.addEventListener('click', () => {
-                const input = inputs[index];
-                if (!input.value.trim()) return;
-
-                qCards[index].style.opacity = 0;
-                setTimeout(() => {
-                    qCards[index].style.display = 'none';
-                    qCards[index + 1].style.display = 'block';
-                    setTimeout(() => { qCards[index + 1].style.opacity = 1; }, 50);
-                    progressOrbs[index + 1].classList.add('active');
-                }, 500);
-            });
-        });
-
-        revealBtn.addEventListener('click', async () => {
-            const q1 = rInput1.value.trim();
-            const q2 = rInput2.value.trim();
-            const q3 = rInput3.value.trim();
-            
-            if (!q3) return;
-
-            readingQuestionsContainer.style.display = 'none';
-            readingError.style.display = 'none';
-            readingLoading.style.display = 'flex';
-            
-            const loadingTexts = ["Reading the stars...", "Consulting the universe...", "Almost ready, Sara..."];
-            let textIdx = 0;
-            const textInterval = setInterval(() => {
-                textIdx = (textIdx + 1) % loadingTexts.length;
-                readingLoadingText.textContent = loadingTexts[textIdx];
-            }, 2500);
-
-            try {
-                if (!ai) throw new Error("API Key missing");
-
-                const prompt = `You are a warm, wise, slightly magical birthday oracle. 
-Sara has just answered three questions about her year. 
-1. One word for how this year felt: "${q1}"
-2. One thing she's ready to leave behind: "${q2}"
-3. What she wants more of in the year ahead: "${q3}"
-
-Write her a personalised birthday reading for the year ahead — 3 short paragraphs, each under 4 sentences. 
-Tone: warm, poetic, gently funny, hopeful. 
-Reference her actual answers naturally. 
-End with one beautiful closing line dedicated to her from her work bestie Suhail. 
-Do not use generic horoscope language. Make it feel written specifically for her.`;
-
-                const response = await ai.models.generateContent({
+                const storyResponse = await ai.models.generateContent({
                     model: 'gemini-3.1-pro-preview',
-                    contents: prompt
+                    contents: storyPrompt
                 });
 
                 clearInterval(textInterval);
                 
-                let text = response.text.trim();
+                simImage.src = imageUrl;
+                
+                let text = storyResponse.text.trim();
                 const paragraphs = text.split('\n\n').filter(p => p.trim() !== '');
                 
                 let formattedHtml = '';
                 for (let i = 0; i < paragraphs.length; i++) {
                     let p = paragraphs[i];
                     if (i === paragraphs.length - 1 && p.toLowerCase().includes('suhail')) {
-                        formattedHtml += `<p style="font-style: italic; font-size: 1.5rem; color: #d4af37; text-align: center; margin-top: 2rem;">${p}</p>`;
+                        formattedHtml += `<p style="font-style: italic; font-size: 1.2rem; color: #d4af37; text-align: center; margin-top: 1.5rem;">${p}</p>`;
                     } else {
                         formattedHtml += `<p style="margin-bottom: 1rem;">${p}</p>`;
-                        if (i < paragraphs.length - 2 || (i === paragraphs.length - 2 && !paragraphs[paragraphs.length-1].toLowerCase().includes('suhail'))) {
-                            formattedHtml += `<div style="width: 20px; height: 1px; background: rgba(212, 175, 55, 0.5); margin: 1.5rem auto;"></div>`;
-                        }
                     }
                 }
-
-                readingTextContainer.innerHTML = formattedHtml;
                 
-                readingLoading.style.display = 'none';
-                readingResult.style.display = 'block';
-                setTimeout(() => { readingResult.style.opacity = 1; }, 100);
+                simStory.innerHTML = formattedHtml;
+                
+                simLoading.style.display = 'none';
+                simResult.style.display = 'flex';
+                setTimeout(() => { simResult.style.opacity = 1; }, 100);
+                
+                simBtn.disabled = false;
+                simBtn.textContent = 'Generate My Vibe ✨';
+                simBtn.classList.remove('muted');
 
             } catch (error) {
                 console.error(error);
                 clearInterval(textInterval);
-                readingLoading.style.display = 'none';
-                readingQuestionsContainer.style.display = 'block';
-                readingError.textContent = "The stars are a bit cloudy right now. Try again later ✨";
-                readingError.style.display = 'block';
+                simLoading.style.display = 'none';
+                simInitial.style.display = 'flex';
+                simError.textContent = "The universe is a bit busy right now. Try again later ✨";
+                simError.style.display = 'block';
+                
+                simBtn.disabled = false;
+                simBtn.textContent = 'Generate My Vibe ✨';
+                simBtn.classList.remove('muted');
             }
         });
 
-        saveReadingBtn.addEventListener('click', async () => {
-            const originalBtnText = saveReadingBtn.textContent;
-            saveReadingBtn.textContent = 'Saving...';
-            saveReadingBtn.classList.add('muted');
-            
-            try {
-                const canvas = await html2canvas(document.getElementById('reading-content-panel'), {
-                    backgroundColor: '#e8e0f0',
-                    scale: 2,
-                    logging: false
-                });
-                
-                const link = document.createElement('a');
-                link.download = 'saras-birthday-reading.png';
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-            } catch (err) {
-                console.error('Error saving reading:', err);
-                alert('Oops, could not save the reading. Try taking a screenshot instead!');
-            } finally {
-                saveReadingBtn.textContent = originalBtnText;
-                saveReadingBtn.classList.remove('muted');
-            }
+        simResetBtn.addEventListener('click', () => {
+            simResult.style.opacity = 0;
+            setTimeout(() => {
+                simResult.style.display = 'none';
+                simCoffee.value = '';
+                simShopping.value = '';
+                simPerfume.value = '';
+                simBtn.classList.add('muted');
+                simInitial.style.display = 'flex';
+            }, 500);
         });
     </script>
 </body>

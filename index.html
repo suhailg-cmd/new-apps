@@ -1,0 +1,2400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Sara</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Raleway:wght@300;400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "@google/genai": "https://esm.sh/@google/genai"
+        }
+      }
+    </script>
+    <style>
+        :root {
+            --blush: #fce4ec;
+            --lavender: #f3e5f5;
+            --pearl: #fdfbfb;
+            --champagne: #fcf4e4;
+            --mint: #e0f2f1;
+            --lilac: #ede7f6;
+            --text-dark: #5c4d5c;
+            --glass-bg: rgba(255, 255, 255, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --glass-shadow: 0 8px 32px 0 rgba(230, 215, 235, 0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            color: var(--text-dark);
+            background: var(--pearl);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Animated Gradient Mesh Background */
+        .bg-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            background: linear-gradient(120deg, var(--blush), var(--lavender), var(--pearl), var(--champagne), var(--mint), var(--lilac));
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Grain Texture */
+        .bg-grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            opacity: 0.4;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Floating Orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.6;
+            animation: floatOrb 15s infinite ease-in-out alternate;
+            z-index: -1;
+        }
+
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, -50px) scale(1.1); }
+        }
+
+        h1, h2, h3, .heading {
+            font-family: 'Italiana', serif;
+            font-weight: 400;
+        }
+
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px 0 rgba(230, 215, 235, 0.5), 0 0 20px rgba(255, 255, 255, 0.4);
+            padding: 2rem;
+            transition: all 0.5s ease;
+        }
+
+        .glass:hover {
+            box-shadow: 0 12px 40px 0 rgba(255, 255, 255, 0.7), inset 0 0 30px rgba(255, 255, 255, 0.8), 0 0 20px rgba(253, 238, 244, 0.6);
+            transform: translateY(-2px);
+            border: 1px solid rgba(255, 255, 255, 1);
+        }
+
+        /* --- Section 1: Landing Page --- */
+        #s1 {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            /* Background is handled by body gradient, but we ensure it's full screen */
+        }
+
+        .landing-name-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .landing-name-letter {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(18vw, 22vw, 26vw);
+            font-weight: 400;
+            line-height: 1;
+            letter-spacing: 0.15em;
+            margin-right: -0.15em; /* offset last letter spacing visually if needed, but flex handles it */
+            
+            background: linear-gradient(to right, #c9a84c, #d4a5a5, #fdfbfb, #c9a84c);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+            
+            animation: iridescentShimmer 4s linear infinite;
+            
+            opacity: 0;
+            transform: translateY(-50px);
+            transition: text-shadow 0.3s ease;
+            cursor: default;
+        }
+
+        .landing-name-letter.dropped {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .landing-name-letter:hover {
+            text-shadow: 0 0 20px rgba(201, 168, 76, 0.6), 0 0 40px rgba(212, 165, 165, 0.4);
+        }
+
+        .landing-name-letter.shimmer-wave {
+            animation: iridescentShimmer 4s linear infinite, letterGlow 1s ease-in-out;
+        }
+
+        @keyframes iridescentShimmer {
+            0% { background-position: 0% center; }
+            100% { background-position: 300% center; }
+        }
+
+        @keyframes letterGlow {
+            0%, 100% { filter: brightness(1); text-shadow: none; }
+            50% { filter: brightness(1.3); text-shadow: 0 0 30px rgba(201, 168, 76, 0.8); }
+        }
+
+        .landing-date {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 400;
+            font-size: 1.4rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: #5a4a68;
+            text-shadow: 0 2px 15px rgba(255, 255, 255, 0.6);
+            margin-top: -1vh;
+            opacity: 0;
+            z-index: 10;
+            transition: opacity 1s ease;
+        }
+
+        .landing-note {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            text-align: center;
+            margin-top: 5vh;
+            z-index: 10;
+        }
+
+        .landing-note-1 {
+            font-size: 1.6rem;
+            font-weight: 500;
+            line-height: 1.6;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #7a4b56;
+            text-shadow: 0 2px 15px rgba(255, 255, 255, 0.6);
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .landing-note-2 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            line-height: 1.6;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #8c7335;
+            text-shadow: 0 2px 15px rgba(255, 255, 255, 0.6);
+            opacity: 0;
+            transition: opacity 1s ease;
+            margin-top: 0.5rem;
+        }
+
+        .landing-scroll {
+            position: absolute;
+            bottom: 4vh;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Cormorant Garamond', serif;
+            color: #c9a84c;
+            font-size: 1.5rem;
+            text-decoration: none;
+            opacity: 0;
+            z-index: 10;
+            animation: pulseChevron 2s infinite ease-in-out;
+            transition: opacity 1s ease;
+            cursor: pointer;
+        }
+
+        @keyframes pulseChevron {
+            0%, 100% { opacity: 0.3; transform: translate(-50%, 0); }
+            50% { opacity: 1; transform: translate(-50%, 5px); }
+        }
+
+        /* Butterflies */
+        .butterfly-container {
+            position: absolute;
+            width: 28px;
+            height: 28px;
+            pointer-events: auto;
+            cursor: pointer;
+            z-index: 5;
+            transform-style: preserve-3d;
+            /* Transition for drifting */
+            transition: left 2s linear, top 2s linear;
+        }
+
+        .butterfly-wing {
+            position: absolute;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(135deg, #0066ff, #4d9fff, #00cfff);
+            background-size: 200% 200%;
+            opacity: 0.85;
+            border-top: 1px solid rgba(255,255,255,0.8);
+            animation: wingShimmer 2s infinite linear;
+        }
+
+        .butterfly-wing-left {
+            left: 0;
+            border-radius: 50% 10% 10% 50%;
+            transform-origin: right center;
+            animation: flapLeft 0.4s infinite alternate ease-in-out, wingShimmer 2s infinite linear;
+        }
+
+        .butterfly-wing-right {
+            right: 0;
+            border-radius: 10% 50% 50% 10%;
+            transform-origin: left center;
+            animation: flapRight 0.4s infinite alternate ease-in-out, wingShimmer 2s infinite linear;
+        }
+
+        .butterfly-body {
+            position: absolute;
+            top: 10%;
+            left: 48%;
+            width: 4%;
+            height: 80%;
+            background: #0a0a0a;
+            border-radius: 10px;
+            z-index: 2;
+        }
+
+        @keyframes wingShimmer {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes flapLeft {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(60deg); }
+        }
+
+        @keyframes flapRight {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(-60deg); }
+        }
+
+        /* Hover state for butterfly */
+        .butterfly-container:hover .butterfly-wing-left {
+            animation: flapLeft 0.8s infinite alternate ease-in-out, wingShimmer 2s infinite linear;
+        }
+        .butterfly-container:hover .butterfly-wing-right {
+            animation: flapRight 0.8s infinite alternate ease-in-out, wingShimmer 2s infinite linear;
+        }
+
+        /* Background Sparkles */
+        .bg-sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #d4af37;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #f4d068, 0 0 12px rgba(255,255,255,0.8);
+            pointer-events: none;
+            z-index: 1;
+            opacity: 1;
+            animation: fadeSparkle 1s forwards ease-out;
+        }
+
+        @keyframes fadeSparkle {
+            0% { transform: scale(0) translateY(0); opacity: 1; }
+            50% { transform: scale(1.5) translateY(-10px); opacity: 0.8; }
+            100% { transform: scale(0) translateY(-20px); opacity: 0; }
+        }
+
+        /* Easter Egg Popup */
+        .easter-egg {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 100;
+            text-align: center;
+            transition: all 0.5s ease;
+            font-family: 'Italiana', serif;
+            font-size: 2rem;
+            color: #8a738a;
+        }
+
+        .easter-egg.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: auto;
+        }
+
+        /* Section 2: Tribute */
+        .tribute-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            width: 100%;
+            margin-top: 3rem;
+        }
+
+        .tribute-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1.5rem;
+        }
+
+        .tribute-icon {
+            font-size: 1.5rem;
+            opacity: 0.8;
+            display: inline-block;
+        }
+
+        .fade-in-element.visible .tribute-icon {
+            animation: gentlePulse 3s infinite ease-in-out;
+        }
+
+        @keyframes gentlePulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; text-shadow: 0 0 15px rgba(230, 215, 235, 0.8); }
+        }
+
+        .tribute-text {
+            font-size: 1.05rem;
+            line-height: 1.5;
+            color: #6b5b6b;
+        }
+
+        /* --- Envelope & Letter Section --- */
+        #s3 {
+            background: #fdfcfc; /* Deepest pearl white */
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 130vh;
+            padding: 100px 0;
+        }
+
+        #s3::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(252, 228, 236, 0.4) 0%, rgba(253, 252, 252, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .envelope-wrapper {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: floatEnvelope 3s infinite ease-in-out;
+        }
+
+        @keyframes floatEnvelope {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+
+        .envelope-container {
+            position: relative;
+            width: 420px;
+            height: 280px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 600px) {
+            .envelope-container {
+                width: 320px;
+                height: 213px;
+            }
+        }
+
+        .envelope-body {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fdfbfb;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(230, 215, 235, 0.4), inset 0 0 40px rgba(255,255,255,0.8);
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        /* Grain overlay for envelope */
+        .envelope-body::before, .envelope-flap::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        /* Inner lining */
+        .envelope-inside {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+            opacity: 0.8;
+            z-index: 1;
+            border-radius: 4px;
+            box-shadow: inset 0 0 20px rgba(255,255,255,0.5);
+        }
+
+        /* Side flaps */
+        .envelope-left-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-top: 140px solid transparent;
+            border-bottom: 140px solid transparent;
+            border-left: 210px solid #f9f7f9;
+            z-index: 3;
+            filter: drop-shadow(2px 0 3px rgba(0,0,0,0.03));
+        }
+
+        .envelope-right-flap {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-top: 140px solid transparent;
+            border-bottom: 140px solid transparent;
+            border-right: 210px solid #f9f7f9;
+            z-index: 3;
+            filter: drop-shadow(-2px 0 3px rgba(0,0,0,0.03));
+        }
+
+        .envelope-bottom-flap {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 210px solid transparent;
+            border-right: 210px solid transparent;
+            border-bottom: 160px solid #fdfbfb;
+            z-index: 4;
+            filter: drop-shadow(0 -2px 4px rgba(0,0,0,0.04));
+        }
+
+        @media (max-width: 600px) {
+            .envelope-left-flap { border-top-width: 106.5px; border-bottom-width: 106.5px; border-left-width: 160px; }
+            .envelope-right-flap { border-top-width: 106.5px; border-bottom-width: 106.5px; border-right-width: 160px; }
+            .envelope-bottom-flap { border-left-width: 160px; border-right-width: 160px; border-bottom-width: 120px; }
+        }
+
+        /* Top flap */
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 160px;
+            background: #fdfbfb;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            transform-origin: top;
+            z-index: 6;
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05));
+        }
+
+        @media (max-width: 600px) {
+            .envelope-flap { height: 120px; }
+        }
+
+        .envelope-container.open .envelope-flap {
+            transform: rotateX(180deg);
+            z-index: 0;
+        }
+
+        /* Wax Seal */
+        .wax-seal {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle at 30% 30%, #f4d068, #d4af37, #aa8c2c);
+            border-radius: 50%;
+            z-index: 7;
+            box-shadow: 0 4px 10px rgba(212, 175, 55, 0.4), inset 0 0 5px rgba(255,255,255,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 24px;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            animation: pulseSeal 2s infinite alternate ease-in-out;
+        }
+
+        .wax-seal::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+        }
+
+        @keyframes pulseSeal {
+            0% { box-shadow: 0 0 10px rgba(212, 175, 55, 0.4), inset 0 0 5px rgba(255,255,255,0.5); }
+            100% { box-shadow: 0 0 25px rgba(212, 175, 55, 0.8), inset 0 0 5px rgba(255,255,255,0.5); }
+        }
+
+        .envelope-container.cracking .wax-seal {
+            animation: shakeSeal 0.2s ease-in-out;
+        }
+
+        @keyframes shakeSeal {
+            0%, 100% { transform: translateX(-50%) rotate(0); }
+            25% { transform: translateX(-52%) rotate(-5deg); }
+            50% { transform: translateX(-48%) rotate(5deg); }
+            75% { transform: translateX(-51%) rotate(-2deg); }
+        }
+
+        .wax-seal-half {
+            position: absolute;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, #f4d068, #d4af37, #aa8c2c);
+            opacity: 0;
+            transition: all 0.6s ease-out;
+        }
+
+        .wax-seal-left {
+            left: 0;
+            border-radius: 25px 0 0 25px;
+            clip-path: polygon(0 0, 100% 0, 80% 50%, 100% 100%, 0 100%);
+        }
+
+        .wax-seal-right {
+            right: 0;
+            border-radius: 0 25px 25px 0;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 20% 50%);
+        }
+
+        .envelope-container.cracking .wax-seal {
+            background: transparent;
+            box-shadow: none;
+            color: transparent;
+            text-shadow: none;
+        }
+        .envelope-container.cracking .wax-seal::after { display: none; }
+
+        .envelope-container.cracking .wax-seal-left {
+            opacity: 1;
+            transform: translateX(-20px) rotate(-10deg);
+            opacity: 0;
+        }
+
+        .envelope-container.cracking .wax-seal-right {
+            opacity: 1;
+            transform: translateX(20px) rotate(10deg);
+            opacity: 0;
+        }
+
+        .envelope-hint {
+            margin-top: 3.5rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            color: #9b7fa6;
+            font-size: 1.6rem;
+            text-align: center;
+            letter-spacing: 0.05em;
+            text-shadow: 0 0 15px rgba(155, 127, 166, 0.4);
+            animation: pulseHint 3s infinite ease-in-out;
+            transition: opacity 0.5s ease;
+        }
+
+        @keyframes pulseHint {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.02); text-shadow: 0 0 20px rgba(155, 127, 166, 0.6); }
+        }
+
+        /* The Letter */
+        .letter-paper {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%) scaleY(0);
+            transform-origin: bottom;
+            width: 90%;
+            max-width: 580px;
+            background: #fffdfa;
+            border-radius: 4px;
+            padding: 3rem 2.5rem;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.05), 0 20px 40px rgba(230, 215, 235, 0.3);
+            z-index: 5;
+            opacity: 0;
+            transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 1s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .letter-paper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            border-radius: 4px;
+        }
+
+        .envelope-container.open .letter-paper {
+            transform: translateX(-50%) translateY(-180px) scaleY(1);
+            opacity: 1;
+            z-index: 20;
+        }
+
+        @media (max-width: 600px) {
+            .envelope-container.open .letter-paper {
+                transform: translateX(-50%) translateY(-120px) scaleY(1);
+                width: 95%;
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        .letter-watermark {
+            position: absolute;
+            top: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 8rem;
+            color: #d4af37;
+            opacity: 0.08;
+            pointer-events: none;
+            line-height: 1;
+        }
+
+        .letter-content {
+            position: relative;
+            z-index: 2;
+            font-family: 'Cormorant Garamond', serif;
+            color: #2c2c2c;
+            font-size: 1.05rem;
+            line-height: 1.9;
+            opacity: 0;
+            transition: opacity 1s ease 1s;
+        }
+
+        .envelope-container.open .letter-content {
+            opacity: 1;
+        }
+
+        .letter-salutation {
+            font-style: italic;
+            font-size: 1.3rem;
+            color: #c9a84c;
+            margin-bottom: 1.5rem;
+        }
+
+        .letter-body p {
+            margin-bottom: 1.2rem;
+        }
+
+        .letter-highlight {
+            font-style: italic;
+            font-size: 1.15rem;
+            color: #9b7fa6;
+            display: block;
+            margin: 1.5rem 0;
+        }
+
+        .letter-birthday {
+            display: block;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: #c9a84c;
+            margin: 2rem 0 1rem;
+        }
+
+        .letter-signoff {
+            text-align: right;
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-top: 1.5rem;
+            color: #c9a84c;
+        }
+
+        .close-letter {
+            position: absolute;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            color: #d4af37;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease 2s;
+            background: none;
+            border: none;
+            padding: 5px;
+            line-height: 1;
+        }
+
+        .envelope-container.open .close-letter {
+            opacity: 0.7;
+        }
+
+        .envelope-container.open .close-letter:hover {
+            opacity: 1;
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            top: -10px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            animation: fallConfetti linear forwards;
+        }
+
+        @keyframes fallConfetti {
+            to { transform: translateY(100vh) rotate(720deg); }
+        }
+
+        .fade-in-element {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .fade-in-element.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- AI Sections CSS --- */
+        
+        /* Shimmer Button */
+        .shimmer-btn {
+            background: linear-gradient(120deg, rgba(255,255,255,0.4), rgba(255,255,255,0.8), rgba(255,255,255,0.4));
+            background-size: 200% 100%;
+            border: 1px solid rgba(255,255,255,0.9);
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-family: 'Raleway', sans-serif;
+            font-size: 1.1rem;
+            color: #7a6b7a;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(230, 215, 235, 0.5);
+            animation: shimmerBtn 3s infinite linear, pulseIridescent 4s infinite alternate ease-in-out;
+        }
+        .shimmer-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.9), 0 0 25px rgba(243, 229, 245, 0.8), 0 0 35px rgba(252, 228, 236, 0.7);
+            color: #5c4d5c;
+        }
+        @keyframes shimmerBtn {
+            0% { background-position: 100% 0; }
+            100% { background-position: -100% 0; }
+        }
+        @keyframes pulseIridescent {
+            0% { box-shadow: 0 4px 15px rgba(230, 215, 235, 0.5), 0 0 10px rgba(243, 229, 245, 0.3); }
+            100% { box-shadow: 0 4px 20px rgba(230, 215, 235, 0.7), 0 0 20px rgba(243, 229, 245, 0.7), 0 0 30px rgba(252, 228, 236, 0.6); }
+        }
+
+        /* Pulsing Orb */
+        .pulsing-orb {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(230, 215, 235, 0.4) 70%);
+            box-shadow: 0 0 20px rgba(255,255,255,0.8);
+            animation: pulseOrb 1.5s infinite ease-in-out alternate;
+        }
+        @keyframes pulseOrb {
+            0% { transform: scale(0.8); opacity: 0.6; }
+            100% { transform: scale(1.2); opacity: 1; }
+        }
+
+        /* Reading Inputs */
+        .reading-input {
+            width: 100%;
+            max-width: 400px;
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(200, 160, 255, 0.3);
+            background: rgba(255, 255, 255, 0.4);
+            font-family: 'Raleway', sans-serif;
+            font-size: 1.1rem;
+            color: #5c4d5c;
+            outline: none;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .reading-input:focus {
+            background: rgba(255, 255, 255, 0.7);
+            border-color: rgba(200, 160, 255, 0.8);
+            box-shadow: 0 0 15px rgba(255,255,255,0.5);
+        }
+
+        /* Progress Orbs */
+        .progress-orb {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(200, 160, 255, 0.2);
+            border: 1px solid rgba(255,255,255,0.5);
+            transition: all 0.5s ease;
+        }
+        .progress-orb.active {
+            background: rgba(200, 160, 255, 0.8);
+            box-shadow: 0 0 10px rgba(200, 160, 255, 0.6);
+            transform: scale(1.2);
+        }
+
+        /* Starfield Loader */
+        .starfield-loader {
+            display: flex;
+            gap: 15px;
+        }
+        .starfield-loader .star {
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #fff;
+            animation: twinkle 1.5s infinite ease-in-out;
+        }
+        .starfield-loader .star:nth-child(2) { animation-delay: 0.2s; }
+        .starfield-loader .star:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .reading-divider {
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(200, 160, 255, 0.6), transparent);
+            margin: 1.5rem auto;
+        }
+
+        /* Mini Particles for Selected Elements */
+        .mini-particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(2px);
+            z-index: 50;
+            animation: floatUpParticle ease-out forwards;
+            mix-blend-mode: screen;
+        }
+
+        @keyframes floatUpParticle {
+            0% { transform: translate(0, 0) scale(0.8); opacity: 1; }
+            50% { opacity: 1; filter: blur(3px) brightness(1.2); }
+            100% { transform: translate(var(--drift), -100px) scale(1.8); opacity: 0; }
+        }
+
+        /* Sara Pet */
+        .sara-pet {
+            position: fixed;
+            z-index: 9999;
+            cursor: pointer;
+            transition: transform 0.1s linear;
+            transform-origin: bottom center;
+            pointer-events: auto;
+            width: 120px;
+            height: 180px;
+        }
+        .sara-speech {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            width: max-content;
+            max-width: 220px;
+            padding: 12px 18px;
+            font-size: 0.9rem;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-bottom: 15px;
+            font-weight: 400;
+            color: var(--text-dark);
+            border-radius: 16px;
+        }
+        .sara-speech.visible {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        
+        /* Animations */
+        @keyframes saraWalk {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-4px) rotate(1deg); }
+            75% { transform: translateY(-4px) rotate(-1deg); }
+        }
+        .sara-walking #sara-svg {
+            animation: saraWalk 1.2s infinite ease-in-out;
+        }
+        @keyframes saraTwirl {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+        .sara-twirling #sara-svg {
+            animation: saraTwirl 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Hover state - Eye roll */
+        .sara-pet:hover #sara-brows path {
+            transform: translateY(-2px);
+            transition: transform 0.3s;
+        }
+        .sara-pet:hover #sara-eyes path:nth-child(1) { d: path("M 90 83 Q 94 83 97 83"); }
+        .sara-pet:hover #sara-eyes path:nth-child(2) { d: path("M 103 83 Q 106 83 110 83"); }
+        
+        /* Sparkle Anim */
+        @keyframes sparkleFloat {
+            0% { transform: translateY(0) scale(0); opacity: 0; }
+            50% { transform: translateY(-10px) scale(1); opacity: 1; }
+            100% { transform: translateY(-20px) scale(0); opacity: 0; }
+        }
+        .sparkle-anim {
+            animation: sparkleFloat 1.5s infinite ease-out;
+            opacity: 0;
+        }
+
+        @media (max-width: 768px) {
+            .landing-date { font-size: 1.1rem; letter-spacing: 0.3em; }
+            .landing-note-1 { font-size: 1.3rem; }
+            .landing-note-2 { font-size: 1.1rem; }
+            section { padding: 1.5rem; }
+            .sara-speech {
+                bottom: auto;
+                top: 100%;
+                transform: translateX(-50%) translateY(-10px);
+                margin-bottom: 0;
+                margin-top: 15px;
+            }
+            .sara-speech.visible {
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+        /* --- AI SECTION: THE UNIVERSE SPEAKS --- */
+        #s-universe {
+            min-height: 100vh;
+            background: #e8e0f0;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 6rem 2rem;
+            overflow: hidden;
+        }
+
+        #s-universe::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .universe-gradient {
+            position: absolute;
+            top: -20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80vw;
+            height: 80vw;
+            background: radial-gradient(circle, rgba(255, 228, 230, 0.4) 0%, rgba(232, 224, 240, 0) 70%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .universe-header {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            color: #d4af37; /* champagne gold */
+            font-size: 2.2rem;
+            margin-bottom: 3rem;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .universe-panels {
+            display: flex;
+            gap: 2rem;
+            z-index: 2;
+            width: 100%;
+            max-width: 1080px;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .universe-panel {
+            flex: 1;
+            max-width: 520px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.2), 0 8px 32px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 400px;
+            overflow-y: auto;
+        }
+
+        .panel-heading {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            color: #9b7fa6; /* lavender */
+            font-size: 1.6rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .panel-subtext {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-style: italic;
+            color: #5c4d5c; /* soft charcoal */
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .wand-icon {
+            font-size: 1.5rem;
+            color: #d4af37;
+            margin-bottom: 2rem;
+            animation: gentleRotate 4s infinite linear;
+        }
+
+        @keyframes gentleRotate {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(10deg); }
+            75% { transform: rotate(-10deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        .universe-input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border-radius: 16px;
+            border: 1px solid rgba(155, 127, 166, 0.4); /* soft lavender border */
+            background: rgba(255, 255, 255, 0.3);
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: #5c4d5c;
+            outline: none;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .universe-input::placeholder {
+            color: #a391a3;
+        }
+
+        .universe-input:focus {
+            background: rgba(255, 255, 255, 0.6);
+            border-color: rgba(212, 175, 55, 0.6);
+        }
+
+        .universe-btn {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 16px;
+            border: 1px solid rgba(212, 175, 55, 0.5); /* champagne gold border */
+            background: rgba(255, 255, 255, 0.2);
+            font-family: 'Raleway', sans-serif;
+            font-size: 1rem;
+            color: #5c4d5c;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .universe-btn:hover:not(.muted) {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .universe-btn::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-20deg);
+            transition: none;
+        }
+
+        .universe-btn:hover:not(.muted)::after {
+            animation: shimmerSweep 1.5s ease-in-out;
+        }
+
+        @keyframes shimmerSweep {
+            0% { left: -100%; }
+            100% { left: 200%; }
+        }
+
+        .universe-btn.muted {
+            opacity: 0.5;
+            cursor: default;
+        }
+
+        .error-state {
+            background: rgba(255, 200, 200, 0.2);
+            border: 1px solid rgba(255, 150, 150, 0.4);
+            color: #a05a5a;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .universe-panels {
+                flex-direction: column;
+                gap: 3rem;
+            }
+            .universe-panel {
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="root" style="display: none;"></div>
+    <canvas id="confetti-canvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999;"></canvas>
+
+    <div class="bg-mesh"></div>
+    <div class="bg-grain"></div>
+
+    <!-- Floating Orbs -->
+    <div class="orb" style="width: 300px; height: 300px; background: #fce4ec; top: 10%; left: 10%; animation-delay: 0s;"></div>
+    <div class="orb" style="width: 400px; height: 400px; background: #f3e5f5; top: 40%; right: 5%; animation-delay: -5s;"></div>
+    <div class="orb" style="width: 250px; height: 250px; background: #fcf4e4; bottom: 10%; left: 20%; animation-delay: -10s;"></div>
+
+    <!-- Easter Egg -->
+    <div id="easterEgg" class="glass easter-egg">
+        من لين وين لين وين 😭
+    </div>
+
+    <!-- Section 1: Landing Page -->
+    <section id="s1">
+        <div class="landing-name-container" id="landingName">
+            <span class="landing-name-letter">S</span>
+            <span class="landing-name-letter">A</span>
+            <span class="landing-name-letter">R</span>
+            <span class="landing-name-letter">A</span>
+        </div>
+        
+        <div class="landing-date" id="landingDate">23 · 03 · 2026</div>
+        
+        <div class="landing-note">
+            <div class="landing-note-1" id="landingNote1">A soul made of fire, dressed in grace.</div>
+            <div class="landing-note-2" id="landingNote2">Born under Aries. That explains everything.</div>
+        </div>
+
+        <a href="#s2" class="landing-scroll" id="landingScroll">↓</a>
+    </section>
+
+    <!-- Section 2: Tribute -->
+    <section id="s2">
+        <h2 class="heading fade-in-element" style="font-size: 3rem; margin-bottom: 0.5rem; color: #8a738a;">The Sara File</h2>
+        <p class="fade-in-element" style="font-family: 'Raleway', sans-serif; font-size: 1.1rem; color: #a391a3; font-style: italic; margin-bottom: 3rem; text-align: center; max-width: 600px;">A highly accurate, peer-reviewed summary of your defining traits and our daily chaos.</p>
+        <div class="tribute-grid">
+            <div class="glass tribute-card fade-in-element" style="transition-delay: 0.1s;">
+                <div class="tribute-icon">✅</div>
+                <div class="tribute-text">Always has your back — scientifically, cosmically proven</div>
+            </div>
+            <div class="glass tribute-card fade-in-element" style="transition-delay: 0.2s;">
+                <div class="tribute-icon">☕</div>
+                <div class="tribute-text">Primary function: snack dealer & coffee co-conspirator</div>
+            </div>
+            <div class="glass tribute-card fade-in-element" style="transition-delay: 0.3s;">
+                <div class="tribute-icon">🧠</div>
+                <div class="tribute-text">Gives the best advice — even when you didn't ask</div>
+            </div>
+            <div class="glass tribute-card fade-in-element" style="transition-delay: 0.4s;">
+                <div class="tribute-icon">🌪️</div>
+                <div class="tribute-text">Will drag you into chaos. Lovingly. With a smile.</div>
+            </div>
+            <div class="glass tribute-card fade-in-element" style="transition-delay: 0.5s;">
+                <div class="tribute-icon">🧊</div>
+                <div class="tribute-text">The calmest person when everything is on fire</div>
+            </div>
+            <div class="glass tribute-card fade-in-element" style="transition-delay: 0.6s;">
+                <div class="tribute-icon">🔥</div>
+                <div class="tribute-text">Will roast you. Means well. Mostly.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI SECTION — THE UNIVERSE SPEAKS -->
+    <section id="s-universe">
+        <div class="universe-gradient"></div>
+        <h2 class="universe-header fade-in-element">The Universe Has Things to Say, Sara</h2>
+        
+        <div class="universe-panels fade-in-element">
+            <!-- LEFT PANEL — MAKE A WISH -->
+            <div class="universe-panel">
+                <h3 class="panel-heading">Make a Wish</h3>
+                <p class="panel-subtext">Type anything. Let the universe handle the rest.</p>
+                <div class="wand-icon">✨</div>
+                
+                <div id="wish-input-container" style="width: 100%;">
+                    <input type="text" id="wish-input" class="universe-input" placeholder="I wish for...">
+                    <button id="wish-btn" class="universe-btn muted">Bring it to life ✨</button>
+                </div>
+
+                <div id="wish-loading" style="display: none; flex-direction: column; align-items: center; width: 100%; margin-top: 1rem;">
+                    <div class="pulsing-orb"></div>
+                    <p id="wish-loading-text" style="margin-top: 1.5rem; color: #9b7fa6; font-style: italic; font-family: 'Cormorant Garamond', serif; font-size: 1.1rem;">The universe is listening...</p>
+                </div>
+
+                <div id="wish-result" style="display: none; flex-direction: column; align-items: center; width: 100%; opacity: 0; transition: opacity 1s ease;">
+                    <div class="image-frame" style="padding: 10px; background: rgba(255,255,255,0.3); border-radius: 16px; border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 0 20px rgba(255,255,255,0.5); width: 100%;">
+                        <img id="wish-image" src="" alt="Your Wish" style="width: 100%; border-radius: 8px; display: block;" referrerPolicy="no-referrer">
+                    </div>
+                    <p id="wish-caption" style="margin-top: 1.5rem; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.2rem; color: #d4a5a5; text-align: center; line-height: 1.4;"></p>
+                    <button id="wish-reset-btn" style="margin-top: 1.5rem; background: none; border: none; color: #9b7fa6; font-family: 'Raleway', sans-serif; cursor: pointer; text-decoration: underline; font-size: 0.9rem; align-self: flex-end;">Wish again ↺</button>
+                </div>
+                <div id="wish-error" class="error-state" style="display: none;"></div>
+            </div>
+
+            <!-- RIGHT PANEL — YOUR BIRTHDAY READING -->
+            <div class="universe-panel">
+                <h3 class="panel-heading">Your Reading</h3>
+                <p class="panel-subtext">Three questions. One year. All yours.</p>
+                
+                <div id="reading-progress" style="display: flex; justify-content: center; gap: 10px; margin-bottom: 2rem;">
+                    <div class="progress-orb active"></div>
+                    <div class="progress-orb"></div>
+                    <div class="progress-orb"></div>
+                </div>
+
+                <div id="reading-questions" style="width: 100%;">
+                    <div class="reading-q-card active" id="rq1">
+                        <p style="font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: #7a4b56; margin-bottom: 1rem; text-align: center;">What's one word for how this year felt?</p>
+                        <input type="text" id="r-input-1" class="universe-input" placeholder="Your word...">
+                        <button class="universe-btn next-q-btn muted" style="display: none;">Next ✨</button>
+                    </div>
+                    <div class="reading-q-card" id="rq2" style="display: none; opacity: 0; transition: opacity 0.5s ease;">
+                        <p style="font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: #7a4b56; margin-bottom: 1rem; text-align: center;">What's one thing you're ready to leave behind?</p>
+                        <input type="text" id="r-input-2" class="universe-input" placeholder="Let it go...">
+                        <button class="universe-btn next-q-btn muted" style="display: none;">Next ✨</button>
+                    </div>
+                    <div class="reading-q-card" id="rq3" style="display: none; opacity: 0; transition: opacity 0.5s ease;">
+                        <p style="font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: #7a4b56; margin-bottom: 1rem; text-align: center;">What do you want more of in the year ahead?</p>
+                        <input type="text" id="r-input-3" class="universe-input" placeholder="More of...">
+                        <button id="reveal-reading-btn" class="universe-btn muted" style="display: none; font-size: 1.1rem; padding: 1.2rem;">Reveal my reading ✨</button>
+                    </div>
+                </div>
+
+                <div id="reading-loading" style="display: none; flex-direction: column; align-items: center; width: 100%; margin-top: 1rem;">
+                    <div class="starfield-loader">
+                        <div class="star"></div><div class="star"></div><div class="star"></div>
+                    </div>
+                    <p id="reading-loading-text" style="margin-top: 1.5rem; color: #9b7fa6; font-style: italic; font-family: 'Cormorant Garamond', serif; font-size: 1.1rem;">Reading the stars...</p>
+                </div>
+
+                <div id="reading-result" style="display: none; opacity: 0; transition: opacity 1s ease; width: 100%;">
+                    <div id="reading-content-panel" style="padding: 1.5rem; background: transparent;">
+                        <div id="reading-text" style="font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; line-height: 1.9; color: #5c4d5c; text-align: left;">
+                            <!-- Content injected here -->
+                        </div>
+                    </div>
+                    <button id="save-reading-btn" class="universe-btn" style="margin-top: 1.5rem;">Save my reading</button>
+                </div>
+                <div id="reading-error" class="error-state" style="display: none;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Letter from Suhail -->
+    <section id="s3">
+        <div class="envelope-wrapper fade-in-element">
+            <div class="envelope-container" id="envelopeContainer">
+                <div class="envelope-body"></div>
+                <div class="envelope-inside"></div>
+                <div class="envelope-left-flap"></div>
+                <div class="envelope-right-flap"></div>
+                <div class="envelope-bottom-flap"></div>
+                <div class="envelope-flap">
+                    <div class="wax-seal" id="waxSeal">
+                        S
+                        <div class="wax-seal-half wax-seal-left" id="waxSealLeft"></div>
+                        <div class="wax-seal-half wax-seal-right" id="waxSealRight"></div>
+                    </div>
+                </div>
+
+                <div class="letter-paper" id="letterPaper">
+                    <div class="letter-watermark">S</div>
+                    <div class="letter-content">
+                        <div class="letter-salutation">To Sara,</div>
+                        <div class="letter-body">
+                            <p>I'm not great at these things. So bear with me.</p>
+                            <p>Two to three years ago, you became the person I didn't know I needed at work. Not because you were assigned to sit near me, or because we were on the same team — but because you just showed up. Consistently. Without being asked.</p>
+                            <p>You're the one who knew when things were heavy before I said anything. The one who had a coffee ready before I even processed that I needed one. The one who could turn the worst kind of meeting into something we'd laugh about for a week.</p>
+                            <p>You give advice like you've already lived three extra lives. You stay calm when everything is falling apart. And then you roast me about it later — which, honestly, I appreciate more than the calm part.</p>
+                            <p>You dragged me into chaos more times than I can count. I never minded.</p>
+                            <span class="letter-highlight">من لين وين لين وين — that's us.</span>
+                            <p>And I wouldn't have it any other way.</p>
+                            <p>I don't say this enough — actually, I probably never say it — but having you around makes everything easier. Not because you solve things. Because you make it feel like things are solvable.</p>
+                            <span class="letter-birthday">Happy Birthday, Sara.</span>
+                            <p>You deserve a day as brilliant, unbothered, and quietly iconic as you are.</p>
+                        </div>
+                        <div class="letter-signoff">— Suhail</div>
+                    </div>
+                    <button class="close-letter" id="closeLetterBtn">&times;</button>
+                </div>
+            </div>
+            <p class="envelope-hint" id="envelopeHint">Something Suhail actually wrote. Tap the seal.</p>
+        </div>
+    </section>
+
+    <!-- Sara Pet -->
+    <div id="sara-pet" class="sara-pet">
+        <div id="sara-speech" class="glass sara-speech"></div>
+        <svg id="sara-svg" viewBox="0 0 200 300" width="120" height="180">
+            <!-- Aura -->
+            <circle cx="100" cy="150" r="70" fill="rgba(230, 215, 235, 0.4)" filter="blur(15px)" />
+            <!-- Abaya Base -->
+            <path d="M 80 120 C 70 200, 50 280, 50 300 L 150 300 C 150 280, 130 200, 120 120 Z" fill="#151515" />
+            <!-- Neck -->
+            <rect x="95" y="100" width="10" height="15" fill="#ffe4d6" />
+            <!-- Face -->
+            <ellipse cx="100" cy="85" rx="18" ry="22" fill="#ffe4d6" />
+            <!-- Hair Peeking -->
+            <path d="M 82 85 C 82 65, 118 65, 118 85 C 118 75, 82 75, 82 85 Z" fill="#0a0a0a" />
+            <!-- Shaila -->
+            <path id="sara-shaila" d="M 80 60 C 100 50, 120 60, 125 85 C 130 110, 125 140, 135 170 C 120 150, 115 110, 115 90 C 115 70, 100 65, 85 75 C 75 110, 70 150, 55 170 C 65 140, 60 110, 65 85 C 70 60, 80 60, 80 60 Z" fill="#1a1a1a" style="transition: d 0.5s ease;" />
+            <!-- Eyes -->
+            <g id="sara-eyes">
+                <path d="M 90 85 Q 94 83 97 85" stroke="#000" stroke-width="1.5" fill="none" stroke-linecap="round" />
+                <path d="M 103 85 Q 106 83 110 85" stroke="#000" stroke-width="1.5" fill="none" stroke-linecap="round" />
+                <!-- Eyeliner wings -->
+                <path d="M 90 85 L 88 83" stroke="#000" stroke-width="1.5" stroke-linecap="round" />
+                <path d="M 110 85 L 112 83" stroke="#000" stroke-width="1.5" stroke-linecap="round" />
+            </g>
+            <!-- Eyebrows -->
+            <g id="sara-brows">
+                <path d="M 88 78 Q 93 76 97 79" stroke="#000" stroke-width="1.5" fill="none" stroke-linecap="round" />
+                <path d="M 103 79 Q 107 76 112 78" stroke="#000" stroke-width="1.5" fill="none" stroke-linecap="round" />
+            </g>
+            <!-- Mouth -->
+            <path d="M 96 98 Q 100 100 104 98" stroke="#d98c8c" stroke-width="1.5" fill="none" stroke-linecap="round" />
+            
+            <!-- Arms (Folded) -->
+            <path id="sara-arms" d="M 80 130 Q 100 150, 120 130" stroke="#222" stroke-width="6" fill="none" stroke-linecap="round" style="transition: d 0.5s ease;" />
+            
+            <!-- Props -->
+            <g id="prop-coffee" style="opacity: 0; transition: opacity 0.3s; transform-origin: 100px 130px;">
+                <rect x="95" y="115" width="10" height="14" fill="#fff" rx="2" />
+                <path d="M 95 120 L 105 120" stroke="#c8a2c8" stroke-width="2" />
+            </g>
+            <g id="prop-perfume" style="opacity: 0; transition: opacity 0.3s;">
+                <rect x="95" y="120" width="10" height="12" fill="#fcf4e4" rx="2" />
+                <rect x="98" y="115" width="4" height="5" fill="#d4af37" />
+                <circle cx="100" cy="113" r="3" fill="#d4af37" />
+                <circle cx="90" cy="100" r="1.5" fill="#fff" class="sparkle-anim" style="animation-delay: 0s;" />
+                <circle cx="110" cy="95" r="2" fill="#fff" class="sparkle-anim" style="animation-delay: 0.2s;" />
+                <circle cx="95" cy="85" r="1" fill="#fff" class="sparkle-anim" style="animation-delay: 0.4s;" />
+            </g>
+            <g id="prop-snack" style="opacity: 0; transition: opacity 0.3s;">
+                <rect x="96" y="118" width="8" height="8" fill="#d4af37" rx="1" />
+                <path d="M 96 122 L 104 122" stroke="#fff" stroke-width="1" />
+            </g>
+        </svg>
+    </div>
+
+    <script type="module">
+        import { GoogleGenAI, ThinkingLevel } from '@google/genai';
+
+        const GEMINI_API_KEY = 'YOUR_API_KEY_HERE'; // Suhail to insert
+        let ai = null;
+        if (GEMINI_API_KEY && GEMINI_API_KEY !== 'YOUR_API_KEY_HERE') {
+            ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+        }
+
+        const myCanvas = document.getElementById('confetti-canvas');
+        myCanvas.width = window.innerWidth;
+        myCanvas.height = window.innerHeight;
+        
+        window.addEventListener('resize', () => {
+            myCanvas.width = window.innerWidth;
+            myCanvas.height = window.innerHeight;
+        });
+
+        const myConfetti = confetti.create(myCanvas, {
+            resize: false,
+            useWorker: false
+        });
+
+        // --- Section 1: Landing Page Logic ---
+        const s1 = document.getElementById('s1');
+        const letters = document.querySelectorAll('.landing-name-letter');
+        const landingDate = document.getElementById('landingDate');
+        const landingNote1 = document.getElementById('landingNote1');
+        const landingNote2 = document.getElementById('landingNote2');
+        const landingScroll = document.getElementById('landingScroll');
+        const isMobileDevice = window.innerWidth <= 768;
+        const butterflyCount = isMobileDevice ? 10 : 16;
+        const butterflies = [];
+        let cursorX = window.innerWidth / 2;
+        let cursorY = window.innerHeight / 2;
+        let lastInteractionTime = Date.now();
+        let cursorFollowActive = false;
+
+        window.onload = () => {
+            // 1. Name and text animations
+            setTimeout(() => {
+                letters.forEach((letter, index) => {
+                    setTimeout(() => {
+                        letter.classList.add('dropped');
+                    }, index * 200);
+                });
+            }, 400);
+
+            setTimeout(() => { landingDate.style.opacity = 1; }, 1400);
+            setTimeout(() => { landingNote1.style.opacity = 1; }, 1800);
+            setTimeout(() => { landingNote2.style.opacity = 1; }, 2100);
+            setTimeout(() => { landingScroll.style.opacity = 1; }, 2500);
+
+            // 2. Butterfly Creation
+            for (let i = 0; i < butterflyCount; i++) {
+                const bContainer = document.createElement('div');
+                bContainer.className = 'butterfly-container';
+                
+                const wLeft = document.createElement('div');
+                wLeft.className = 'butterfly-wing butterfly-wing-left';
+                
+                const wRight = document.createElement('div');
+                wRight.className = 'butterfly-wing butterfly-wing-right';
+                
+                const body = document.createElement('div');
+                body.className = 'butterfly-body';
+                
+                bContainer.appendChild(wLeft);
+                bContainer.appendChild(wRight);
+                bContainer.appendChild(body);
+                
+                // Initial position: center
+                bContainer.style.left = '50%';
+                bContainer.style.top = '50%';
+                bContainer.style.transform = `translate(-50%, -50%) scale(0)`;
+                
+                // Randomize animation delays slightly
+                const delay = Math.random() * 0.5;
+                wLeft.style.animationDelay = `-${delay}s`;
+                wRight.style.animationDelay = `-${delay}s`;
+                
+                // Randomize z-index (some behind text, some in front)
+                bContainer.style.zIndex = Math.random() > 0.5 ? '5' : '15';
+                
+                s1.appendChild(bContainer);
+                
+                butterflies.push({
+                    el: bContainer,
+                    x: window.innerWidth / 2,
+                    y: window.innerHeight / 2,
+                    targetX: window.innerWidth / 2,
+                    targetY: window.innerHeight / 2,
+                    speed: 0.5 + Math.random() * 1.5,
+                    angle: Math.random() * Math.PI * 2,
+                    state: 'burst', // burst, roam, follow
+                    burstEndTime: Date.now() + 1500
+                });
+            }
+
+            // 3. Butterfly Burst
+            setTimeout(() => {
+                butterflies.forEach(b => {
+                    b.el.style.transform = `translate(-50%, -50%) scale(1)`;
+                    // Calculate random burst target
+                    const dist = 100 + Math.random() * (Math.min(window.innerWidth, window.innerHeight) / 2);
+                    b.targetX = b.x + Math.cos(b.angle) * dist;
+                    b.targetY = b.y + Math.sin(b.angle) * dist;
+                    
+                    // Set transition for burst
+                    b.el.style.transition = 'left 1.5s cubic-bezier(0.2, 0.8, 0.2, 1), top 1.5s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.5s';
+                    b.el.style.left = `${b.targetX}px`;
+                    b.el.style.top = `${b.targetY}px`;
+                    b.x = b.targetX;
+                    b.y = b.targetY;
+                });
+            }, 200);
+
+            // 4. Butterfly Loop
+            setTimeout(() => {
+                butterflies.forEach(b => {
+                    b.state = 'roam';
+                    b.el.style.transition = 'left 2s linear, top 2s linear';
+                });
+                setInterval(updateButterflies, 2000); // Update targets every 2s
+            }, 1700);
+
+            setTimeout(() => {
+                cursorFollowActive = true;
+            }, 3000);
+
+            // Trigger fade ins for other sections
+            setTimeout(() => {
+                document.querySelectorAll('.fade-in-element').forEach(el => {
+                    if (typeof el.getBoundingClientRect === 'function') {
+                        const rect = el.getBoundingClientRect();
+                        if(rect.top < window.innerHeight) {
+                            el.classList.add('visible');
+                        }
+                    }
+                });
+            }, 100);
+        };
+
+        function updateButterflies() {
+            const now = Date.now();
+            const isCursorStill = now - lastInteractionTime > 2000;
+            
+            // Sort to find nearest to cursor
+            let sortedByDist = [];
+            if (cursorFollowActive && !isCursorStill) {
+                sortedByDist = [...butterflies].map(b => {
+                    const dx = b.x - cursorX;
+                    const dy = b.y - cursorY;
+                    return { b, dist: dx*dx + dy*dy };
+                }).sort((a, b) => a.dist - b.dist);
+            }
+
+            butterflies.forEach(b => {
+                if (b.state === 'flee') {
+                    if (now > b.burstEndTime) b.state = 'roam';
+                    return; // Let it flee
+                }
+
+                let isFollowing = false;
+                if (cursorFollowActive && !isCursorStill && sortedByDist.length > 0) {
+                    // Check if this butterfly is one of the 3-4 nearest
+                    const nearestCount = isMobileDevice ? 2 : 4;
+                    for (let i = 0; i < nearestCount; i++) {
+                        if (sortedByDist[i] && sortedByDist[i].b === b) {
+                            isFollowing = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (isFollowing) {
+                    b.state = 'follow';
+                    // Move towards cursor but not exactly on it
+                    const offsetX = (Math.random() - 0.5) * 100;
+                    const offsetY = (Math.random() - 0.5) * 100;
+                    b.targetX = cursorX + offsetX;
+                    b.targetY = cursorY + offsetY;
+                } else {
+                    b.state = 'roam';
+                    // Gentle arc movement
+                    b.angle += (Math.random() - 0.5) * Math.PI / 2;
+                    const dist = 50 + Math.random() * 100;
+                    b.targetX = b.x + Math.cos(b.angle) * dist;
+                    b.targetY = b.y + Math.sin(b.angle) * dist;
+                }
+
+                // Boundary check
+                b.targetX = Math.max(20, Math.min(window.innerWidth - 20, b.targetX));
+                b.targetY = Math.max(20, Math.min(window.innerHeight - 20, b.targetY));
+
+                b.el.style.left = `${b.targetX}px`;
+                b.el.style.top = `${b.targetY}px`;
+                
+                // Rotate to face direction
+                const dx = b.targetX - b.x;
+                const dy = b.targetY - b.y;
+                const rot = Math.atan2(dy, dx) * 180 / Math.PI + 90;
+                b.el.style.transform = `translate(-50%, -50%) rotate(${rot}deg)`;
+
+                b.x = b.targetX;
+                b.y = b.targetY;
+            });
+        }
+
+        // 5. Interactions
+        document.addEventListener('mousemove', (e) => {
+            cursorX = e.clientX;
+            cursorY = e.clientY;
+            lastInteractionTime = Date.now();
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (e.touches.length > 0) {
+                cursorX = e.touches[0].clientX;
+                cursorY = e.touches[0].clientY;
+                lastInteractionTime = Date.now();
+            }
+        });
+
+        document.addEventListener('touchstart', (e) => {
+            if (e.touches.length > 0) {
+                cursorX = e.touches[0].clientX;
+                cursorY = e.touches[0].clientY;
+                lastInteractionTime = Date.now();
+            }
+        });
+
+        s1.addEventListener('click', (e) => {
+            // Check if clicked on a butterfly
+            const clickedButterfly = e.target.closest('.butterfly-container');
+            if (clickedButterfly) {
+                const b = butterflies.find(bf => bf.el === clickedButterfly);
+                if (b) {
+                    b.state = 'flee';
+                    b.burstEndTime = Date.now() + 1000;
+                    b.angle = Math.random() * Math.PI * 2;
+                    b.targetX = b.x + Math.cos(b.angle) * 300;
+                    b.targetY = b.y + Math.sin(b.angle) * 300;
+                    b.el.style.transition = 'left 0.5s ease-out, top 0.5s ease-out, transform 0.5s';
+                    b.el.style.left = `${b.targetX}px`;
+                    b.el.style.top = `${b.targetY}px`;
+                    b.x = b.targetX;
+                    b.y = b.targetY;
+                    setTimeout(() => {
+                        if(b.el) b.el.style.transition = 'left 2s linear, top 2s linear, transform 0.5s';
+                    }, 500);
+                }
+                return;
+            }
+
+            // Background click -> sparkles
+            for (let i = 0; i < 4; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'bg-sparkle';
+                sparkle.style.left = `${e.clientX + (Math.random() - 0.5) * 20}px`;
+                sparkle.style.top = `${e.clientY + (Math.random() - 0.5) * 20}px`;
+                s1.appendChild(sparkle);
+                setTimeout(() => sparkle.remove(), 1000);
+            }
+        });
+
+        // Name hover/tap effects
+        letters.forEach(letter => {
+            letter.addEventListener('mouseenter', () => {
+                if (!isMobileDevice) {
+                    letter.style.textShadow = '0 0 30px rgba(201, 168, 76, 0.8)';
+                    setTimeout(() => { letter.style.textShadow = ''; }, 500);
+                }
+            });
+        });
+
+        const nameContainer = document.getElementById('landingName');
+        nameContainer.addEventListener('click', () => {
+            if (isMobileDevice) {
+                letters.forEach(l => {
+                    l.classList.remove('shimmer-wave');
+                    void l.offsetWidth; // trigger reflow
+                    l.classList.add('shimmer-wave');
+                });
+            }
+        });
+
+        landingScroll.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.querySelector('#s2').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Scroll animations
+        window.addEventListener('scroll', () => {
+            document.querySelectorAll('.fade-in-element').forEach(el => {
+                if (typeof el.getBoundingClientRect === 'function') {
+                    const rect = el.getBoundingClientRect();
+                    if(rect.top < window.innerHeight - 100) {
+                        el.classList.add('visible');
+                    }
+                }
+            });
+        });
+
+        // Easter Egg
+        let clickCount = 0;
+        let clickTimer;
+        document.addEventListener('click', (e) => {
+            if(e.target.closest('.quiz-btn')) return; // Don't trigger on quiz buttons
+            
+            clickCount++;
+            clearTimeout(clickTimer);
+            
+            if(clickCount === 3) {
+                const egg = document.getElementById('easterEgg');
+                egg.classList.add('show');
+                setTimeout(() => {
+                    egg.classList.remove('show');
+                }, 3000);
+                clickCount = 0;
+            } else {
+                clickTimer = setTimeout(() => {
+                    clickCount = 0;
+                }, 1000);
+            }
+        });
+
+        // Letter Interaction Logic
+        const envelopeContainer = document.getElementById('envelopeContainer');
+        const waxSeal = document.getElementById('waxSeal');
+        const letterPaper = document.getElementById('letterPaper');
+        const closeLetterBtn = document.getElementById('closeLetterBtn');
+        const envelopeHint = document.getElementById('envelopeHint');
+        const saraSpeech = document.getElementById('sara-speech');
+
+        let isLetterOpen = false;
+        let isAnimating = false;
+
+        function createGoldenDust(x, y) {
+            for(let i=0; i<30; i++) {
+                const dust = document.createElement('div');
+                dust.style.position = 'absolute';
+                dust.style.width = Math.random() * 4 + 2 + 'px';
+                dust.style.height = dust.style.width;
+                dust.style.background = '#d4af37';
+                dust.style.borderRadius = '50%';
+                dust.style.boxShadow = '0 0 6px #f4d068';
+                dust.style.left = x + 'px';
+                dust.style.top = y + window.scrollY + 'px';
+                dust.style.pointerEvents = 'none';
+                dust.style.zIndex = '100';
+                
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = Math.random() * 60 + 20;
+                const tx = Math.cos(angle) * velocity;
+                const ty = Math.sin(angle) * velocity;
+                
+                dust.animate([
+                    { transform: 'translate(0,0) scale(1)', opacity: 1 },
+                    { transform: `translate(${tx}px, ${ty}px) scale(0)`, opacity: 0 }
+                ], {
+                    duration: 800 + Math.random() * 400,
+                    easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
+                    fill: 'forwards'
+                });
+                
+                document.body.appendChild(dust);
+                setTimeout(() => dust.remove(), 1200);
+            }
+        }
+
+        function triggerConfetti() {
+            const colors = ['#fce4ec', '#f3e5f5', '#fcf4e4', '#d4af37'];
+            for(let i=0; i<50; i++) {
+                const conf = document.createElement('div');
+                conf.className = 'confetti';
+                conf.style.left = Math.random() * 100 + 'vw';
+                conf.style.background = colors[Math.floor(Math.random() * colors.length)];
+                conf.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                conf.style.animationDelay = (Math.random() * 1) + 's';
+                document.body.appendChild(conf);
+                setTimeout(() => conf.remove(), 5000);
+            }
+        }
+
+        envelopeContainer.addEventListener('click', (e) => {
+            if (isLetterOpen || isAnimating) return;
+            isAnimating = true;
+            
+            // Act 1: Crack
+            envelopeContainer.classList.add('cracking');
+            envelopeHint.style.opacity = '0';
+            
+            const rect = waxSeal.getBoundingClientRect();
+            createGoldenDust(rect.left + rect.width/2, rect.top + rect.height/2);
+
+            // Act 2 & 3: Open and Rise
+            setTimeout(() => {
+                envelopeContainer.classList.remove('cracking');
+                envelopeContainer.classList.add('open');
+                isLetterOpen = true;
+                
+                setTimeout(() => {
+                    triggerConfetti();
+                    
+                    // Sara Pet Reaction
+                    if(saraSpeech) {
+                        saraSpeech.textContent = "Okay Suhail. I wasn't expecting that. 💙";
+                        saraSpeech.classList.add('visible');
+                        setTimeout(() => {
+                            saraSpeech.classList.remove('visible');
+                        }, 4000);
+                    }
+                    
+                    isAnimating = false;
+                }, 1500); // Wait for letter to unfold
+                
+            }, 800);
+        });
+
+        closeLetterBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (!isLetterOpen || isAnimating) return;
+            isAnimating = true;
+            
+            envelopeContainer.classList.remove('open');
+            
+            setTimeout(() => {
+                isLetterOpen = false;
+                envelopeHint.style.opacity = '1';
+                isAnimating = false;
+            }, 1500);
+        });
+
+        // Sara Pet Logic
+        const sara = document.getElementById('sara-pet');
+        const speech = document.getElementById('sara-speech');
+        const saraSvg = document.getElementById('sara-svg');
+        const propCoffee = document.getElementById('prop-coffee');
+        const propPerfume = document.getElementById('prop-perfume');
+        const propSnack = document.getElementById('prop-snack');
+        const saraArms = document.getElementById('sara-arms');
+        const saraShaila = document.getElementById('sara-shaila');
+        
+        let saraX = window.innerWidth - 200;
+        let saraY = window.innerHeight - 250;
+        let targetX = saraX;
+        let targetY = saraY;
+        let isHovered = false;
+        let isInteracting = false;
+        let mood = 'unbothered'; 
+        let idleTime = 0;
+        let isMobile = window.innerWidth <= 768;
+        let facingRight = true;
+        
+        const quotes = [
+            "Did you just click on me? Bold.",
+            "I was literally in the middle of something.",
+            "من لين وين لين وين — even on my birthday?",
+            "Not me being the most unbothered person here 💅"
+        ];
+        let lastQuoteIndex = -1;
+        let speechTimeout;
+        
+        function showSpeech(text, duration = 2500) {
+            clearTimeout(speechTimeout);
+            speech.innerHTML = text; // allow HTML for loading dots
+            speech.classList.add('visible');
+            speechTimeout = setTimeout(() => {
+                speech.classList.remove('visible');
+            }, duration);
+        }
+        
+        // Interactions
+        sara.addEventListener('click', async () => {
+            if (isInteracting) return;
+            idleTime = 0;
+            
+            if (!ai) {
+                let qIndex;
+                do { qIndex = Math.floor(Math.random() * quotes.length); } while (qIndex === lastQuoteIndex);
+                lastQuoteIndex = qIndex;
+                showSpeech(quotes[qIndex]);
+                return;
+            }
+
+            // Show loading shimmer in speech bubble
+            clearTimeout(speechTimeout);
+            speech.innerHTML = '<span style="animation: pulseOrb 1s infinite alternate; display: inline-block;">✨✨✨</span>';
+            speech.classList.add('visible');
+
+            try {
+                const prompt = "You are Sara — an Emirati woman, elegant, fiesty, and unbothered. You are at your own birthday party on a beautiful webpage your work bestie Suhail made for you. You are sarcastic, warm underneath, and have princess energy. Respond to being clicked on in 1 short sentence max. Mix English and Arabic naturally. Never repeat yourself. Stay in character always.";
+                
+                const response = await ai.models.generateContent({
+                    model: 'gemini-3-flash-preview',
+                    contents: prompt
+                });
+                
+                showSpeech(response.text.trim(), 3500);
+            } catch (error) {
+                console.error(error);
+                let qIndex;
+                do { qIndex = Math.floor(Math.random() * quotes.length); } while (qIndex === lastQuoteIndex);
+                lastQuoteIndex = qIndex;
+                showSpeech(quotes[qIndex]);
+            }
+        });
+        
+        sara.addEventListener('dblclick', () => {
+            idleTime = 0;
+            isInteracting = true;
+            sara.classList.add('sara-twirling');
+            spawnParticles(sara);
+            setTimeout(() => {
+                sara.classList.remove('sara-twirling');
+                isInteracting = false;
+            }, 1200);
+        });
+        
+        sara.addEventListener('mouseenter', () => { 
+            isHovered = true; 
+            idleTime = 0; 
+            sara.classList.remove('sara-walking'); 
+        });
+        sara.addEventListener('mouseleave', () => { 
+            isHovered = false; 
+        });
+        
+        // Roaming
+        function updateSara() {
+            if (isMobile) {
+                sara.style.transform = 'scale(0.6)';
+                sara.style.bottom = '10px';
+                sara.style.right = '10px';
+                sara.style.left = 'auto';
+                sara.style.top = 'auto';
+                sara.classList.remove('sara-walking');
+                return;
+            }
+            
+            if (isHovered || isInteracting || mood === 'calm') {
+                sara.classList.remove('sara-walking');
+                requestAnimationFrame(updateSara);
+                return;
+            }
+            
+            const dx = targetX - saraX;
+            const dy = targetY - saraY;
+            const dist = Math.sqrt(dx*dx + dy*dy);
+            
+            let speed = mood === 'chaotic' ? 1.5 : 0.6;
+            
+            if (dist > 5) {
+                saraX += (dx / dist) * speed;
+                saraY += (dy / dist) * speed;
+                sara.style.transform = `translate(${saraX}px, ${saraY}px)`;
+                sara.classList.add('sara-walking');
+                
+                if (dx > 0 && !facingRight) {
+                    saraSvg.style.transform = 'scaleX(-1)';
+                    facingRight = true;
+                } else if (dx < 0 && facingRight) {
+                    saraSvg.style.transform = 'scaleX(1)';
+                    facingRight = false;
+                }
+            } else {
+                sara.classList.remove('sara-walking');
+                if (Math.random() < 0.01) {
+                    targetX = Math.max(50, Math.min(window.innerWidth - 150, saraX + (Math.random() - 0.5) * 400));
+                    targetY = Math.max(50, Math.min(window.innerHeight - 250, saraY + (Math.random() - 0.5) * 400));
+                }
+            }
+            
+            requestAnimationFrame(updateSara);
+        }
+        
+        // Mood Loop
+        setInterval(() => {
+            const moods = ['unbothered', 'chaotic', 'calm'];
+            mood = moods[Math.floor(Math.random() * moods.length)];
+        }, 35000);
+        
+        // Idle Loop
+        setInterval(() => {
+            idleTime++;
+            if (idleTime === 20 && !isMobile) {
+                targetX = window.innerWidth - 150;
+                targetY = window.innerHeight - 250;
+                showSpeech("Finally. Some peace.", 4000);
+                propCoffee.style.opacity = '1';
+                setTimeout(() => propCoffee.style.opacity = '0', 4000);
+                idleTime = -10; 
+            } else if (idleTime % 12 === 0 && idleTime > 0 && mood !== 'chaotic' && !isHovered && !isInteracting) {
+                const actions = ['perfume', 'coffee', 'snack', 'shaila', 'nails'];
+                const action = actions[Math.floor(Math.random() * actions.length)];
+                
+                if (action === 'perfume') {
+                    propPerfume.style.opacity = '1';
+                    setTimeout(() => propPerfume.style.opacity = '0', 3000);
+                } else if (action === 'coffee') {
+                    propCoffee.style.opacity = '1';
+                    setTimeout(() => propCoffee.style.opacity = '0', 3000);
+                } else if (action === 'snack') {
+                    propSnack.style.opacity = '1';
+                    setTimeout(() => propSnack.style.opacity = '0', 3000);
+                } else if (action === 'shaila') {
+                    saraShaila.setAttribute('d', 'M 80 60 C 100 50, 120 60, 125 85 C 130 110, 135 140, 145 170 C 130 150, 125 110, 115 90 C 115 70, 100 65, 85 75 C 75 110, 60 150, 45 170 C 55 140, 60 110, 65 85 C 70 60, 80 60, 80 60 Z');
+                    setTimeout(() => saraShaila.setAttribute('d', 'M 80 60 C 100 50, 120 60, 125 85 C 130 110, 125 140, 135 170 C 120 150, 115 110, 115 90 C 115 70, 100 65, 85 75 C 75 110, 70 150, 55 170 C 65 140, 60 110, 65 85 C 70 60, 80 60, 80 60 Z'), 3000);
+                } else if (action === 'nails') {
+                    saraArms.setAttribute('d', 'M 80 130 Q 90 110, 100 120');
+                    setTimeout(() => saraArms.setAttribute('d', 'M 80 130 Q 100 150, 120 130'), 3000);
+                }
+            }
+        }, 1000);
+        
+        window.addEventListener('resize', () => {
+            isMobile = window.innerWidth <= 768;
+            if (isMobile) {
+                sara.style.transform = 'scale(0.6)';
+                sara.style.bottom = '10px';
+                sara.style.right = '10px';
+                sara.style.left = 'auto';
+                sara.style.top = 'auto';
+            } else {
+                saraX = window.innerWidth - 200;
+                saraY = window.innerHeight - 250;
+                targetX = saraX;
+                targetY = saraY;
+                sara.style.bottom = 'auto';
+                sara.style.right = 'auto';
+                sara.style.left = '0';
+                sara.style.top = '0';
+            }
+        });
+        
+        if (!isMobile) {
+            sara.style.bottom = 'auto';
+            sara.style.right = 'auto';
+            sara.style.left = '0';
+            sara.style.top = '0';
+            updateSara();
+        } else {
+            sara.style.transform = 'scale(0.6)';
+            sara.style.bottom = '10px';
+            sara.style.right = '10px';
+            sara.style.left = 'auto';
+            sara.style.top = 'auto';
+        }
+
+        // --- AI SECTION: THE UNIVERSE SPEAKS LOGIC ---
+        
+        // Wish Panel
+        const wishInput = document.getElementById('wish-input');
+        const wishBtn = document.getElementById('wish-btn');
+        const wishLoading = document.getElementById('wish-loading');
+        const wishLoadingText = document.getElementById('wish-loading-text');
+        const wishResult = document.getElementById('wish-result');
+        const wishImage = document.getElementById('wish-image');
+        const wishCaption = document.getElementById('wish-caption');
+        const wishResetBtn = document.getElementById('wish-reset-btn');
+        const wishInputContainer = document.getElementById('wish-input-container');
+        const wishError = document.getElementById('wish-error');
+
+        wishInput.addEventListener('input', () => {
+            if (wishInput.value.trim().length > 0) {
+                wishBtn.classList.remove('muted');
+            } else {
+                wishBtn.classList.add('muted');
+            }
+        });
+
+        wishBtn.addEventListener('click', async () => {
+            const wish = wishInput.value.trim();
+            if (!wish) return;
+
+            wishInputContainer.style.display = 'none';
+            wishError.style.display = 'none';
+            wishLoading.style.display = 'flex';
+            wishResult.style.display = 'none';
+            wishResult.style.opacity = 0;
+
+            const loadingTexts = ["The universe is listening...", "Almost there...", "Something beautiful is forming..."];
+            let textIdx = 0;
+            const textInterval = setInterval(() => {
+                textIdx = (textIdx + 1) % loadingTexts.length;
+                wishLoadingText.textContent = loadingTexts[textIdx];
+            }, 2500);
+
+            try {
+                if (!ai) throw new Error("API Key missing");
+                
+                const imagePrompt = `${wish}...illustrated in a soft ethereal style, iridescent pastels, blush and lavender tones, dreamy and magical, like a scene from a fairy tale. No text in image.`;
+                
+                const imageResponse = await ai.models.generateContent({
+                    model: 'gemini-3.1-flash-image-preview',
+                    contents: imagePrompt,
+                    config: {
+                        imageConfig: {
+                            aspectRatio: "1:1",
+                            imageSize: "1K"
+                        }
+                    }
+                });
+                
+                let imageUrl = '';
+                for (const part of imageResponse.candidates[0].content.parts) {
+                    if (part.inlineData) {
+                        imageUrl = `data:image/png;base64,${part.inlineData.data}`;
+                        break;
+                    }
+                }
+                
+                if (!imageUrl) throw new Error("No image generated");
+
+                const captionResponse = await ai.models.generateContent({
+                    model: 'gemini-3-flash-preview',
+                    contents: `Write a short, poetic one-line caption (max 12 words) about this wish coming true: "${wish}". Tone: ethereal, magical, soft.`,
+                });
+
+                clearInterval(textInterval);
+                wishImage.src = imageUrl;
+                wishCaption.textContent = captionResponse.text.replace(/["']/g, '');
+                
+                wishLoading.style.display = 'none';
+                wishResult.style.display = 'flex';
+                setTimeout(() => { wishResult.style.opacity = 1; }, 100);
+
+            } catch (error) {
+                console.error(error);
+                clearInterval(textInterval);
+                wishLoading.style.display = 'none';
+                wishInputContainer.style.display = 'block';
+                wishError.textContent = "The universe is a bit busy right now. Try again later ✨";
+                wishError.style.display = 'block';
+            }
+        });
+
+        wishResetBtn.addEventListener('click', () => {
+            wishResult.style.opacity = 0;
+            setTimeout(() => {
+                wishResult.style.display = 'none';
+                wishInput.value = '';
+                wishBtn.classList.add('muted');
+                wishInputContainer.style.display = 'block';
+            }, 500);
+        });
+
+        // Reading Panel
+        const rInput1 = document.getElementById('r-input-1');
+        const rInput2 = document.getElementById('r-input-2');
+        const rInput3 = document.getElementById('r-input-3');
+        const nextBtns = document.querySelectorAll('.next-q-btn');
+        const revealBtn = document.getElementById('reveal-reading-btn');
+        const qCards = document.querySelectorAll('.reading-q-card');
+        const progressOrbs = document.querySelectorAll('.progress-orb');
+        const readingLoading = document.getElementById('reading-loading');
+        const readingLoadingText = document.getElementById('reading-loading-text');
+        const readingResult = document.getElementById('reading-result');
+        const readingTextContainer = document.getElementById('reading-text');
+        const readingQuestionsContainer = document.getElementById('reading-questions');
+        const saveReadingBtn = document.getElementById('save-reading-btn');
+        const readingError = document.getElementById('reading-error');
+
+        const inputs = [rInput1, rInput2, rInput3];
+        const buttons = [...nextBtns, revealBtn];
+
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', () => {
+                const btn = buttons[index];
+                if (input.value.trim().length > 0) {
+                    btn.classList.remove('muted');
+                    btn.style.display = 'block';
+                } else {
+                    btn.classList.add('muted');
+                }
+            });
+        });
+
+        nextBtns.forEach((btn, index) => {
+            btn.addEventListener('click', () => {
+                const input = inputs[index];
+                if (!input.value.trim()) return;
+
+                qCards[index].style.opacity = 0;
+                setTimeout(() => {
+                    qCards[index].style.display = 'none';
+                    qCards[index + 1].style.display = 'block';
+                    setTimeout(() => { qCards[index + 1].style.opacity = 1; }, 50);
+                    progressOrbs[index + 1].classList.add('active');
+                }, 500);
+            });
+        });
+
+        revealBtn.addEventListener('click', async () => {
+            const q1 = rInput1.value.trim();
+            const q2 = rInput2.value.trim();
+            const q3 = rInput3.value.trim();
+            
+            if (!q3) return;
+
+            readingQuestionsContainer.style.display = 'none';
+            readingError.style.display = 'none';
+            readingLoading.style.display = 'flex';
+            
+            const loadingTexts = ["Reading the stars...", "Consulting the universe...", "Almost ready, Sara..."];
+            let textIdx = 0;
+            const textInterval = setInterval(() => {
+                textIdx = (textIdx + 1) % loadingTexts.length;
+                readingLoadingText.textContent = loadingTexts[textIdx];
+            }, 2500);
+
+            try {
+                if (!ai) throw new Error("API Key missing");
+
+                const prompt = `You are a warm, wise, slightly magical birthday oracle. 
+Sara has just answered three questions about her year. 
+1. One word for how this year felt: "${q1}"
+2. One thing she's ready to leave behind: "${q2}"
+3. What she wants more of in the year ahead: "${q3}"
+
+Write her a personalised birthday reading for the year ahead — 3 short paragraphs, each under 4 sentences. 
+Tone: warm, poetic, gently funny, hopeful. 
+Reference her actual answers naturally. 
+End with one beautiful closing line dedicated to her from her work bestie Suhail. 
+Do not use generic horoscope language. Make it feel written specifically for her.`;
+
+                const response = await ai.models.generateContent({
+                    model: 'gemini-3.1-pro-preview',
+                    contents: prompt,
+                    config: {
+                        thinkingConfig: { thinkingLevel: ThinkingLevel.HIGH }
+                    }
+                });
+
+                clearInterval(textInterval);
+                
+                let text = response.text.trim();
+                const paragraphs = text.split('\n\n').filter(p => p.trim() !== '');
+                
+                let formattedHtml = '';
+                for (let i = 0; i < paragraphs.length; i++) {
+                    let p = paragraphs[i];
+                    if (i === paragraphs.length - 1 && p.toLowerCase().includes('suhail')) {
+                        formattedHtml += `<p style="font-style: italic; font-size: 1.5rem; color: #d4af37; text-align: center; margin-top: 2rem;">${p}</p>`;
+                    } else {
+                        formattedHtml += `<p style="margin-bottom: 1rem;">${p}</p>`;
+                        if (i < paragraphs.length - 2 || (i === paragraphs.length - 2 && !paragraphs[paragraphs.length-1].toLowerCase().includes('suhail'))) {
+                            formattedHtml += `<div style="width: 20px; height: 1px; background: rgba(212, 175, 55, 0.5); margin: 1.5rem auto;"></div>`;
+                        }
+                    }
+                }
+
+                readingTextContainer.innerHTML = formattedHtml;
+                
+                readingLoading.style.display = 'none';
+                readingResult.style.display = 'block';
+                setTimeout(() => { readingResult.style.opacity = 1; }, 100);
+
+            } catch (error) {
+                console.error(error);
+                clearInterval(textInterval);
+                readingLoading.style.display = 'none';
+                readingQuestionsContainer.style.display = 'block';
+                readingError.textContent = "The stars are a bit cloudy right now. Try again later ✨";
+                readingError.style.display = 'block';
+            }
+        });
+
+        saveReadingBtn.addEventListener('click', async () => {
+            const originalBtnText = saveReadingBtn.textContent;
+            saveReadingBtn.textContent = 'Saving...';
+            saveReadingBtn.classList.add('muted');
+            
+            try {
+                const canvas = await html2canvas(document.getElementById('reading-content-panel'), {
+                    backgroundColor: '#e8e0f0',
+                    scale: 2,
+                    logging: false
+                });
+                
+                const link = document.createElement('a');
+                link.download = 'saras-birthday-reading.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            } catch (err) {
+                console.error('Error saving reading:', err);
+                alert('Oops, could not save the reading. Try taking a screenshot instead!');
+            } finally {
+                saveReadingBtn.textContent = originalBtnText;
+                saveReadingBtn.classList.remove('muted');
+            }
+        });
+    </script>
+</body>
+</html>
+

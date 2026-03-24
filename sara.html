@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sara - CSS Art Character</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap');
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            background-color: #fdf0f5;
+            overflow: hidden;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* Wrapper for positioning and scaling */
+        .sara-wrapper {
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            margin-left: -60px;
+            width: 120px;
+            height: 180px;
+            transition: all 3s ease-in-out;
+            z-index: 9999;
+        }
+
+        @media (max-width: 768px) {
+            .sara-wrapper {
+                transform: scale(0.61); /* 110px / 180px ≈ 0.61 */
+                transform-origin: bottom center;
+            }
+        }
+
+        /* Main Container for Twirl */
+        .sara-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            transform-style: preserve-3d;
+        }
+
+        /* Aura */
+        .sara-aura {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, rgba(230, 215, 235, 0.7) 0%, rgba(253, 240, 245, 0) 60%);
+            border-radius: 50%;
+            animation: pulseAura 3s infinite ease-in-out;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes pulseAura {
+            0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.6; }
+            50% { transform: translateX(-50%) scale(1.1); opacity: 0.9; }
+        }
+
+        /* Speech Bubble */
+        .sara-speech {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            width: max-content;
+            max-width: 220px;
+            padding: 12px 20px;
+            font-size: 1.1rem;
+            font-style: italic;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-bottom: 20px;
+            color: #5c4d5c;
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(230, 215, 235, 0.5), inset 0 0 10px rgba(255,255,255,0.5);
+            z-index: 100;
+        }
+
+        .sara-speech.visible {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Character Base */
+        .sara-character {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        /* Abaya & Body */
+        .abaya-base {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 135px;
+            background: #0a0a0a;
+            border-radius: 35px 35px 8px 8px;
+            box-shadow: inset 0 -15px 25px -5px rgba(200, 160, 255, 0.35), 0 10px 20px -5px rgba(200, 160, 255, 0.3);
+            overflow: hidden;
+            z-index: 10;
+            animation: pulseHemGlow 4s infinite ease-in-out;
+        }
+
+        @keyframes pulseHemGlow {
+            0%, 100% { 
+                box-shadow: inset 0 -15px 25px -5px rgba(200, 160, 255, 0.35), 0 10px 20px -5px rgba(200, 160, 255, 0.3); 
+            }
+            50% { 
+                box-shadow: inset 0 -25px 35px -5px rgba(200, 160, 255, 0.7), 0 15px 30px -5px rgba(200, 160, 255, 0.6); 
+            }
+        }
+
+        .abaya-fold {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            border-radius: 50%;
+        }
+
+        .fold-1 { left: 15%; width: 30%; background: linear-gradient(to right, transparent, rgba(255,255,255,0.04), transparent); }
+        .fold-2 { right: 20%; width: 25%; background: linear-gradient(to right, transparent, rgba(0,0,0,0.6), transparent); }
+        .fold-3 { left: 40%; width: 20%; background: linear-gradient(to right, transparent, rgba(255,255,255,0.02), transparent); }
+
+        /* Head & Face */
+        .head-group {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 60px;
+            z-index: 15;
+        }
+
+        .face {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 26px;
+            height: 34px;
+            background: #f5e6d8;
+            border-radius: 45% 45% 55% 55%;
+            z-index: 16;
+            box-shadow: inset -2px -2px 6px rgba(200, 150, 120, 0.15);
+        }
+
+        .blush {
+            position: absolute;
+            top: 18px;
+            width: 7px;
+            height: 4px;
+            background: rgba(230, 130, 140, 0.25);
+            border-radius: 50%;
+            filter: blur(1px);
+        }
+        .blush-left { left: 2px; }
+        .blush-right { right: 2px; }
+
+        .eye {
+            position: absolute;
+            top: 15px;
+            width: 5px;
+            height: 2.5px;
+            background: #111;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        .eye-left { left: 4px; }
+        .eye-right { right: 4px; }
+
+        .lash {
+            position: absolute;
+            top: -1px;
+            right: -1px;
+            width: 3px;
+            height: 3px;
+            border-top: 1px solid #111;
+            border-right: 1px solid #111;
+            border-radius: 0 50% 0 0;
+            transition: opacity 0.3s;
+        }
+
+        .brow {
+            position: absolute;
+            top: 10px;
+            width: 7px;
+            height: 2px;
+            border-top: 1px solid #222;
+            border-radius: 50% 50% 0 0;
+            transition: transform 0.3s ease;
+        }
+        .brow-left { left: 3px; }
+        .brow-right { right: 3px; }
+
+        .nose {
+            position: absolute;
+            top: 20px;
+            left: 12px;
+            width: 2px;
+            height: 4px;
+            background: rgba(200, 150, 120, 0.3);
+            border-radius: 1px;
+        }
+
+        /* Hair */
+        .hair-front {
+            position: absolute;
+            top: 8px;
+            width: 5px;
+            height: 22px;
+            background: #0a0a0a;
+            z-index: 17;
+        }
+        .hair-left { left: 10px; border-radius: 2px 0 0 4px; }
+        .hair-right { right: 10px; border-radius: 0 2px 4px 0; }
+
+        /* Shaila */
+        .shaila-top {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 36px;
+            height: 48px;
+            background: #1c1c1c;
+            border-radius: 45% 45% 20% 30%;
+            z-index: 14;
+            box-shadow: inset 2px 2px 5px rgba(255,255,255,0.05);
+        }
+
+        .shaila-drape {
+            position: absolute;
+            top: 20px;
+            right: 0px;
+            width: 20px;
+            height: 70px;
+            background: #1c1c1c;
+            border-radius: 10px 50% 50% 10px;
+            transform: rotate(-12deg);
+            z-index: 13;
+            box-shadow: inset 2px 0 5px rgba(255,255,255,0.03);
+            transition: transform 0.5s ease;
+        }
+
+        .shaila-drape-fold {
+            position: absolute;
+            top: 10px;
+            left: 4px;
+            width: 8px;
+            height: 50px;
+            border-left: 1px solid rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+
+        /* Arms & Hands */
+        .arm {
+            position: absolute;
+            width: 11px;
+            height: 45px;
+            background: #111;
+            border-radius: 5px;
+            z-index: 12;
+        }
+        .arm-left {
+            top: 65px;
+            left: 20px;
+            transform-origin: top center;
+            transform: rotate(12deg);
+        }
+        .arm-right {
+            top: 65px;
+            right: 20px;
+            transform-origin: top center;
+            transform: rotate(-15deg);
+            transition: transform 0.5s ease;
+        }
+        .hand {
+            position: absolute;
+            bottom: -5px;
+            left: 1.5px;
+            width: 8px;
+            height: 12px;
+            background: #f5e6d8;
+            border-radius: 4px;
+        }
+
+        /* Props */
+        .props-container {
+            position: absolute;
+            bottom: -18px;
+            left: -8px;
+            width: 25px;
+            height: 25px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        .prop { display: none; }
+
+        .prop-perfume {
+            position: absolute;
+            bottom: 2px;
+            left: 8px;
+            width: 8px;
+            height: 14px;
+            background: rgba(255,255,255,0.85);
+            border-radius: 2px;
+            border: 1px solid #e0d0e0;
+        }
+        .prop-perfume::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: 1px;
+            width: 4px;
+            height: 4px;
+            background: #d4af37;
+            border-radius: 1px;
+        }
+        .sparkles {
+            position: absolute;
+            top: -15px;
+            left: -20px;
+            width: 30px;
+            height: 30px;
+        }
+        .sparkle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 6px 1px #fff, 0 0 10px 2px rgba(230, 215, 235, 0.8);
+            opacity: 0;
+        }
+        .s1 { top: 15px; left: 15px; }
+        .s2 { top: 15px; left: 15px; }
+        .s3 { top: 15px; left: 15px; }
+
+        .prop-coffee {
+            position: absolute;
+            bottom: 2px;
+            left: 6px;
+            width: 12px;
+            height: 14px;
+            background: #fff;
+            border-radius: 2px 2px 6px 6px;
+        }
+        .prop-coffee::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            right: -4px;
+            width: 4px;
+            height: 8px;
+            border: 2px solid #fff;
+            border-left: none;
+            border-radius: 0 4px 4px 0;
+        }
+        .steam {
+            position: absolute;
+            top: -12px;
+            left: 2px;
+            width: 8px;
+            height: 12px;
+        }
+        .steam-wisp {
+            position: absolute;
+            bottom: 0;
+            width: 2px;
+            height: 8px;
+            background: rgba(255,255,255,0.7);
+            border-radius: 50%;
+            filter: blur(1px);
+            opacity: 0;
+        }
+
+        .prop-snack {
+            position: absolute;
+            bottom: 4px;
+            left: 8px;
+            width: 10px;
+            height: 6px;
+            background: #d4af37;
+            border-radius: 2px;
+        }
+
+        /* --- Hover Interaction --- */
+        .sara-container:hover .brow { transform: translateY(-2px); }
+        .sara-container:hover .eye { height: 1.5px; border-radius: 0; background: #111; }
+        .sara-container:hover .lash { opacity: 0; }
+
+        /* --- Animations --- */
+        
+        /* Twirl */
+        @keyframes twirl {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+        @keyframes flareHem {
+            0%, 100% { transform: translateX(-50%) scaleX(1); }
+            50% { transform: translateX(-50%) scaleX(1.15); }
+        }
+        @keyframes burstOut {
+            0% { transform: translate(0,0) scale(0); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(1.5); opacity: 0; }
+        }
+
+        /* 1. Perfume Spray */
+        @keyframes raiseArmPerfume {
+            0%, 100% { transform: rotate(-15deg); }
+            15%, 85% { transform: rotate(-110deg) translateY(-5px); }
+        }
+        @keyframes spraySparkle1 { 
+            0%, 100% { opacity: 0; transform: translate(0,0) scale(0.5); } 
+            25% { opacity: 1; transform: translate(-8px, -8px) scale(1.2); } 
+            80% { opacity: 0; transform: translate(-25px, -15px) scale(0.8); } 
+        }
+        @keyframes spraySparkle2 { 
+            0%, 100% { opacity: 0; transform: translate(0,0) scale(0.5); } 
+            35% { opacity: 1; transform: translate(-12px, -2px) scale(1.5); } 
+            80% { opacity: 0; transform: translate(-35px, -5px) scale(0.8); } 
+        }
+        @keyframes spraySparkle3 { 
+            0%, 100% { opacity: 0; transform: translate(0,0) scale(0.5); } 
+            45% { opacity: 1; transform: translate(-5px, -12px) scale(1.2); } 
+            80% { opacity: 0; transform: translate(-15px, -30px) scale(0.8); } 
+        }
+        
+        .anim-perfume .arm-right { animation: raiseArmPerfume 2s ease; }
+        .anim-perfume .s1 { animation: spraySparkle1 2s ease; }
+        .anim-perfume .s2 { animation: spraySparkle2 2s ease; }
+        .anim-perfume .s3 { animation: spraySparkle3 2s ease; }
+
+        /* 2. Coffee Sip */
+        @keyframes raiseArmCoffee {
+            0%, 100% { transform: rotate(-15deg); }
+            20%, 80% { transform: rotate(-135deg) translateY(-8px) translateX(6px); }
+        }
+        @keyframes riseSteamAnim {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0; }
+            30% { opacity: 0.8; }
+            80% { transform: translateY(-15px) scale(1.5); opacity: 0; }
+        }
+        .anim-coffee .arm-right { animation: raiseArmCoffee 3s ease; }
+        .anim-coffee .steam-wisp { animation: riseSteamAnim 3s ease; }
+
+        /* 3. Snack */
+        @keyframes raiseArmSnack {
+            0%, 100% { transform: rotate(-15deg); }
+            30%, 70% { transform: rotate(-145deg) translateY(-10px) translateX(8px); }
+        }
+        @keyframes biteShift {
+            0%, 100% { transform: translateY(0); }
+            45%, 55% { transform: translateY(2px) rotate(1deg); }
+        }
+        .anim-snack .arm-right { animation: raiseArmSnack 2s ease; }
+        .anim-snack .head-group { animation: biteShift 2s ease; }
+
+        /* 4. Shaila Fix */
+        @keyframes raiseArmShaila {
+            0%, 100% { transform: rotate(-15deg); }
+            30%, 70% { transform: rotate(-165deg) translateY(-15px) translateX(12px); }
+        }
+        @keyframes shiftShailaAnim {
+            0%, 100% { transform: rotate(-12deg); }
+            40%, 60% { transform: rotate(-16deg) translateY(-2px); }
+        }
+        .anim-shaila .arm-right { animation: raiseArmShaila 2.5s ease; }
+        .anim-shaila .shaila-drape { animation: shiftShailaAnim 2.5s ease; }
+
+        /* 5. Nail Check */
+        @keyframes raiseArmNails {
+            0%, 100% { transform: rotate(-15deg); }
+            20%, 80% { transform: rotate(-95deg) translateY(-2px) translateX(2px); }
+        }
+        @keyframes lookNailsAnim {
+            0%, 100% { transform: translateX(-50%) rotate(0deg); }
+            30%, 70% { transform: translateX(-55%) rotate(-4deg); }
+        }
+        .anim-nails .arm-right { animation: raiseArmNails 3s ease; }
+        .anim-nails .head-group { animation: lookNailsAnim 3s ease; }
+
+        /* Twirl Burst Particles */
+        .burst-particle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 3px;
+            height: 3px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.8);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 50;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="sara-wrapper" class="sara-wrapper">
+        <div id="sara-container" class="sara-container">
+            <div class="sara-aura"></div>
+            <div id="sara-speech" class="sara-speech"></div>
+            
+            <div class="sara-character">
+                <div class="abaya-base">
+                    <div class="abaya-fold fold-1"></div>
+                    <div class="abaya-fold fold-2"></div>
+                    <div class="abaya-fold fold-3"></div>
+                </div>
+                
+                <div class="arm arm-left">
+                    <div class="hand"></div>
+                </div>
+                
+                <div class="head-group">
+                    <div class="shaila-top"></div>
+                    <div class="hair-front hair-left"></div>
+                    <div class="hair-front hair-right"></div>
+                    
+                    <div class="face">
+                        <div class="blush blush-left"></div>
+                        <div class="blush blush-right"></div>
+                        <div class="eye eye-left"><div class="lash"></div></div>
+                        <div class="eye eye-right"><div class="lash"></div></div>
+                        <div class="brow brow-left"></div>
+                        <div class="brow brow-right"></div>
+                        <div class="nose"></div>
+                    </div>
+                    
+                    <div class="shaila-drape">
+                        <div class="shaila-drape-fold"></div>
+                    </div>
+                </div>
+                
+                <div class="arm arm-right">
+                    <div class="hand"></div>
+                    <div class="props-container">
+                        <div class="prop prop-perfume">
+                            <div class="sparkles">
+                                <div class="sparkle s1"></div>
+                                <div class="sparkle s2"></div>
+                                <div class="sparkle s3"></div>
+                            </div>
+                        </div>
+                        <div class="prop prop-coffee">
+                            <div class="steam">
+                                <div class="steam-wisp"></div>
+                            </div>
+                        </div>
+                        <div class="prop prop-snack"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const wrapper = document.getElementById('sara-wrapper');
+        const container = document.getElementById('sara-container');
+        const speech = document.getElementById('sara-speech');
+        const propsContainer = document.querySelector('.props-container');
+        const props = document.querySelectorAll('.prop');
+        
+        const quotes = [
+            "Did you just click on me? Bold.",
+            "I was literally in the middle of something.",
+            "من لين وين لين وين — even on my birthday?",
+            "Not me being the most unbothered person here 💅"
+        ];
+        
+        let quoteIdx = 0;
+        let idleTimer = 0;
+        let isInteracting = false;
+        let isHovered = false;
+
+        // --- Interactions ---
+
+        // Single Click
+        container.addEventListener('click', (e) => {
+            if (isInteracting) return;
+            idleTimer = 0;
+            
+            speech.textContent = quotes[quoteIdx];
+            quoteIdx = (quoteIdx + 1) % quotes.length;
+            
+            speech.classList.add('visible');
+            setTimeout(() => {
+                speech.classList.remove('visible');
+            }, 2500);
+        });
+
+        // Double Click
+        container.addEventListener('dblclick', (e) => {
+            isInteracting = true;
+            idleTimer = 0;
+            
+            container.style.animation = 'twirl 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
+            document.querySelector('.abaya-base').style.animation = 'flareHem 1.2s ease-in-out, pulseHemGlow 4s infinite ease-in-out';
+            
+            createTwirlBurst();
+            
+            setTimeout(() => {
+                container.style.animation = '';
+                document.querySelector('.abaya-base').style.animation = 'pulseHemGlow 4s infinite ease-in-out';
+                isInteracting = false;
+            }, 1200);
+        });
+
+        function createTwirlBurst() {
+            for(let i=0; i<12; i++) {
+                const p = document.createElement('div');
+                p.className = 'burst-particle';
+                
+                const angle = (Math.random() * Math.PI * 2);
+                const radius = 40 + Math.random() * 20;
+                const tx = Math.cos(angle) * radius;
+                const ty = Math.sin(angle) * radius;
+                
+                p.style.setProperty('--tx', `${tx}px`);
+                p.style.setProperty('--ty', `${ty}px`);
+                p.style.animation = `burstOut 0.8s ease-out forwards`;
+                
+                container.appendChild(p);
+                setTimeout(() => p.remove(), 800);
+            }
+        }
+
+        // Hover
+        container.addEventListener('mouseenter', () => { isHovered = true; idleTimer = 0; });
+        container.addEventListener('mouseleave', () => { isHovered = false; });
+
+        // --- Idle Animations ---
+        
+        function resetProps() {
+            props.forEach(p => p.style.display = 'none');
+            propsContainer.style.opacity = '0';
+            container.className = 'sara-container';
+        }
+
+        function playIdleAnim(type) {
+            if (isInteracting || isHovered) return;
+            
+            resetProps();
+            
+            if (type === 'perfume') {
+                document.querySelector('.prop-perfume').style.display = 'block';
+                propsContainer.style.opacity = '1';
+                container.classList.add('anim-perfume');
+                setTimeout(resetProps, 2000);
+            } 
+            else if (type === 'coffee') {
+                document.querySelector('.prop-coffee').style.display = 'block';
+                propsContainer.style.opacity = '1';
+                container.classList.add('anim-coffee');
+                setTimeout(resetProps, 3000);
+            }
+            else if (type === 'snack') {
+                document.querySelector('.prop-snack').style.display = 'block';
+                propsContainer.style.opacity = '1';
+                container.classList.add('anim-snack');
+                setTimeout(resetProps, 2000);
+            }
+            else if (type === 'shaila') {
+                container.classList.add('anim-shaila');
+                setTimeout(resetProps, 2500);
+            }
+            else if (type === 'nails') {
+                container.classList.add('anim-nails');
+                setTimeout(resetProps, 3000);
+            }
+        }
+
+        // Random Idle Loop
+        setInterval(() => {
+            idleTimer++;
+            
+            if (idleTimer === 20) {
+                // 20 seconds no interaction
+                wrapper.style.left = '80px';
+                wrapper.style.bottom = '20px';
+                
+                setTimeout(() => {
+                    document.querySelector('.prop-coffee').style.display = 'block';
+                    propsContainer.style.opacity = '1';
+                    container.classList.add('anim-coffee');
+                    
+                    speech.textContent = "Finally. Some peace.";
+                    speech.classList.add('visible');
+                    
+                    setTimeout(() => {
+                        speech.classList.remove('visible');
+                        resetProps();
+                    }, 3000);
+                }, 3000);
+                
+                idleTimer = -10; // Pause timer
+            } 
+            else if (idleTimer > 0 && idleTimer % 10 === 0 && !isInteracting && !isHovered) {
+                const anims = ['perfume', 'coffee', 'snack', 'shaila', 'nails'];
+                playIdleAnim(anims[Math.floor(Math.random() * anims.length)]);
+            }
+        }, 1000);
+
+    </script>
+</body>
+</html>

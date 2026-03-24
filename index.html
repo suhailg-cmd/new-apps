@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Raleway:wght@300;400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script async src="https://unpkg.com/es-module-shims@1.8.0/dist/es-module-shims.js"></script>
     <script type="importmap">
       {
         "imports": {
@@ -1507,7 +1508,7 @@
         const GEMINI_API_KEY = 'AIzaSyDwpKrNvFXTnBTCWlJl7IhAP6Qs6OcmMY4';
         let ai = null;
         if (GEMINI_API_KEY && GEMINI_API_KEY !== 'YOUR_API_KEY_HERE') {
-            ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+            ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY, dangerouslyAllowBrowser: true });
         }
 
         const myCanvas = document.getElementById('confetti-canvas');
@@ -2197,7 +2198,11 @@
                 
                 const imageResponse = await ai.models.generateContent({
                     model: 'gemini-3.1-flash-image-preview',
-                    contents: imagePrompt,
+                    contents: {
+                        parts: [
+                            { text: imagePrompt }
+                        ]
+                    },
                     config: {
                         imageConfig: {
                             aspectRatio: "1:1",
@@ -2330,10 +2335,7 @@ Do not use generic horoscope language. Make it feel written specifically for her
 
                 const response = await ai.models.generateContent({
                     model: 'gemini-3.1-pro-preview',
-                    contents: prompt,
-                    config: {
-                        thinkingConfig: { thinkingLevel: ThinkingLevel.HIGH }
-                    }
+                    contents: prompt
                 });
 
                 clearInterval(textInterval);

@@ -8,14 +8,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Raleway:wght@300;400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
-    <script async src="https://unpkg.com/es-module-shims@1.8.0/dist/es-module-shims.js"></script>
-    <script type="importmap">
-      {
-        "imports": {
-          "@google/genai": "https://esm.sh/@google/genai"
-        }
-      }
-    </script>
     <style>
         :root {
             --blush: #fce4ec;
@@ -1480,15 +1472,7 @@
         </svg>
     </div>
 
-    <script type="module">
-        import { GoogleGenAI, ThinkingLevel } from '@google/genai';
-
-        const GEMINI_API_KEY = 'YOUR_API_KEY_HERE';
-        let ai = null;
-        if (GEMINI_API_KEY && GEMINI_API_KEY !== 'YOUR_API_KEY_HERE') {
-            ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
-        }
-
+    <script>
         const myCanvas = document.getElementById('confetti-canvas');
         myCanvas.width = window.innerWidth;
         myCanvas.height = window.innerHeight;
@@ -1957,14 +1941,6 @@
         sara.addEventListener('click', async () => {
             if (isInteracting) return;
             idleTime = 0;
-            
-            if (!ai) {
-                let qIndex;
-                do { qIndex = Math.floor(Math.random() * quotes.length); } while (qIndex === lastQuoteIndex);
-                lastQuoteIndex = qIndex;
-                showSpeech(quotes[qIndex]);
-                return;
-            }
 
             // Show loading shimmer in speech bubble
             clearTimeout(speechTimeout);
@@ -1972,14 +1948,13 @@
             speech.classList.add('visible');
 
             try {
-                const prompt = "You are Sara — an Emirati woman, elegant, fiesty, and unbothered. You are at your own birthday party on a beautiful webpage your work bestie Suhail made for you. You are sarcastic, warm underneath, and have princess energy. Respond to being clicked on in 1 short sentence max. Mix English and Arabic naturally. Never repeat yourself. Stay in character always.";
+                const response = await fetch('/api/chat', { method: 'POST' });
+                const data = await response.json();
                 
-                const response = await ai.models.generateContent({
-                    model: 'gemini-3-flash-preview',
-                    contents: prompt
-                });
+                if (!response.ok) throw new Error(data.error || 'Failed to fetch');
                 
-                showSpeech(response.text.trim(), 3500);
+                let text = data.text.replace(/["']/g, '');
+                showSpeech(text, 3500);
             } catch (error) {
                 console.error(error);
                 let qIndex;
@@ -2190,69 +2165,20 @@
             }, 2500);
 
             try {
-                if (!ai) throw new Error("API Key missing");
-                
-                // 1. Generate Image
-                const imagePrompt = `A soft, ethereal, aesthetic flatlay or scene inspired by: ${coffee} coffee, shopping at ${shopping}, and ${perfume} perfume. Iridescent pastels, blush and lavender tones, dreamy, magical, luxurious, elegant. No text in image.`;
-                
-                const imageResponse = await ai.models.generateContent({
-                    model: 'gemini-2.5-flash-image',
-                    contents: {
-                        parts: [
-                            { text: imagePrompt }
-                        ]
-                    },
-                    config: {
-                        imageConfig: {
-                            aspectRatio: "16:9"
-                        }
-                    }
+                const response = await fetch('/api/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ coffee, shopping, perfume })
                 });
                 
-                let imageUrl = '';
-                for (const part of imageResponse.candidates[0].content.parts) {
-                    if (part.inlineData) {
-                        imageUrl = `data:${part.inlineData.mimeType || 'image/png'};base64,${part.inlineData.data}`;
-                        break;
-                    }
-                }
+                const data = await response.json();
                 
-                if (!imageUrl) throw new Error("No image generated");
-
-                // 2. Generate Story
-                const storyPrompt = `You are a warm, witty, slightly magical narrator. 
-Sara is celebrating her birthday. She has chosen her holy trinity for the perfect day:
-- Coffee: ${coffee}
-- Shopping: ${shopping}
-- Perfume: ${perfume}
-
-Write a short, funny, ethereal, and luxurious paragraph (max 4 sentences) describing her perfect birthday vibe based on these choices. 
-Tone: elegant, slightly sarcastic, princess energy, warm. 
-End with a sweet "Happy Birthday Sara" from her work bestie Suhail.`;
-
-                const storyResponse = await ai.models.generateContent({
-                    model: 'gemini-3-flash-preview',
-                    contents: storyPrompt
-                });
+                if (!response.ok) throw new Error(data.error || "Failed to generate");
 
                 clearInterval(textInterval);
                 
-                simImage.src = imageUrl;
-                
-                let text = storyResponse.text.trim();
-                const paragraphs = text.split('\n\n').filter(p => p.trim() !== '');
-                
-                let formattedHtml = '';
-                for (let i = 0; i < paragraphs.length; i++) {
-                    let p = paragraphs[i];
-                    if (i === paragraphs.length - 1 && p.toLowerCase().includes('suhail')) {
-                        formattedHtml += `<p style="font-style: italic; font-size: 1.2rem; color: #d4af37; text-align: center; margin-top: 1.5rem;">${p}</p>`;
-                    } else {
-                        formattedHtml += `<p style="margin-bottom: 1rem;">${p}</p>`;
-                    }
-                }
-                
-                simStory.innerHTML = formattedHtml;
+                simImage.src = data.imageUrl;
+                simStory.innerHTML = data.storyHtml;
                 
                 simLoading.style.display = 'none';
                 simResult.style.display = 'flex';
@@ -2263,7 +2189,7 @@ End with a sweet "Happy Birthday Sara" from her work bestie Suhail.`;
                 simBtn.classList.remove('muted');
 
             } catch (error) {
-                console.error("Gemini API Error:", error);
+                console.error("Server API Error:", error);
                 clearInterval(textInterval);
                 simLoading.style.display = 'none';
                 simInitial.style.display = 'flex';

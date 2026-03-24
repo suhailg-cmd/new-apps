@@ -28,13 +28,16 @@
             padding: 0;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Raleway', sans-serif;
             font-weight: 300;
             color: var(--text-dark);
             background: var(--pearl);
             overflow-x: hidden;
-            scroll-behavior: smooth;
         }
 
         /* Animated Gradient Mesh Background */
@@ -95,18 +98,18 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
+            padding: 80px 20px;
             position: relative;
         }
 
         /* Glassmorphism */
         .glass {
-            background: rgba(255, 255, 255, 0.45);
+            background: rgba(255, 255, 255, 0.35);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 24px;
-            box-shadow: 0 8px 32px 0 rgba(230, 215, 235, 0.5), 0 0 20px rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px rgba(180, 160, 210, 0.15);
             padding: 2rem;
             transition: all 0.5s ease;
         }
@@ -187,7 +190,7 @@
         .landing-date {
             font-family: 'Raleway', sans-serif;
             font-weight: 400;
-            font-size: 1.4rem;
+            font-size: clamp(1.1rem, 3vw, 1.4rem);
             letter-spacing: 0.4em;
             text-transform: uppercase;
             color: #5a4a68;
@@ -207,7 +210,7 @@
         }
 
         .landing-note-1 {
-            font-size: 1.6rem;
+            font-size: clamp(1.3rem, 4vw, 1.6rem);
             font-weight: 500;
             line-height: 1.6;
             text-transform: uppercase;
@@ -219,7 +222,7 @@
         }
 
         .landing-note-2 {
-            font-size: 1.25rem;
+            font-size: clamp(1.1rem, 3vw, 1.25rem);
             font-weight: 500;
             line-height: 1.6;
             text-transform: uppercase;
@@ -238,7 +241,7 @@
             transform: translateX(-50%);
             font-family: 'Cormorant Garamond', serif;
             color: #c9a84c;
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 3.5vw, 1.5rem);
             text-decoration: none;
             opacity: 0;
             z-index: 10;
@@ -279,14 +282,14 @@
 
         .butterfly-wing-left {
             left: 0;
-            border-radius: 50% 10% 10% 50%;
+            border-radius: 50% 0 50% 0;
             transform-origin: right center;
             animation: flapLeft 0.4s infinite alternate ease-in-out, wingShimmer 2s infinite linear;
         }
 
         .butterfly-wing-right {
             right: 0;
-            border-radius: 10% 50% 50% 10%;
+            border-radius: 0 50% 0 50%;
             transform-origin: left center;
             animation: flapRight 0.4s infinite alternate ease-in-out, wingShimmer 2s infinite linear;
         }
@@ -294,10 +297,11 @@
         .butterfly-body {
             position: absolute;
             top: 10%;
-            left: 48%;
-            width: 4%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
             height: 80%;
-            background: #0a0a0a;
+            background: #000080;
             border-radius: 10px;
             z-index: 2;
         }
@@ -309,13 +313,13 @@
         }
 
         @keyframes flapLeft {
-            0% { transform: rotateY(0deg); }
-            100% { transform: rotateY(60deg); }
+            0% { transform: rotateY(-40deg); }
+            100% { transform: rotateY(40deg); }
         }
 
         @keyframes flapRight {
-            0% { transform: rotateY(0deg); }
-            100% { transform: rotateY(-60deg); }
+            0% { transform: rotateY(40deg); }
+            100% { transform: rotateY(-40deg); }
         }
 
         /* Hover state for butterfly */
@@ -371,7 +375,7 @@
         /* Section 2: Tribute */
         .tribute-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
             max-width: 1000px;
             width: 100%;
@@ -386,7 +390,7 @@
         }
 
         .tribute-icon {
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 3.5vw, 1.5rem);
             opacity: 0.8;
             display: inline-block;
         }
@@ -666,7 +670,7 @@
             font-family: 'Cormorant Garamond', serif;
             font-style: italic;
             color: #9b7fa6;
-            font-size: 1.6rem;
+            font-size: clamp(1.3rem, 4vw, 1.6rem);
             text-align: center;
             letter-spacing: 0.05em;
             text-shadow: 0 0 15px rgba(155, 127, 166, 0.4);
@@ -731,7 +735,7 @@
             left: 50%;
             transform: translateX(-50%);
             font-family: 'Cormorant Garamond', serif;
-            font-size: 8rem;
+            font-size: clamp(4rem, 15vw, 8rem);
             color: #d4af37;
             opacity: 0.08;
             pointer-events: none;
@@ -1034,19 +1038,26 @@
         }
 
         @media (max-width: 768px) {
-            .landing-date { font-size: 1.1rem; letter-spacing: 0.3em; }
-            .landing-note-1 { font-size: 1.3rem; }
-            .landing-note-2 { font-size: 1.1rem; }
-            section { padding: 1.5rem; }
+            section { padding: 80px 15px; }
+            .oracle-panel { padding: 1.5rem; }
+            .oracle-result-card { padding: 1.5rem; }
+            #sim-result { padding: 1.5rem !important; }
             .sara-speech {
-                bottom: auto;
-                top: 100%;
-                transform: translateX(-50%) translateY(-10px);
-                margin-bottom: 0;
-                margin-top: 15px;
+                bottom: 100%;
+                top: auto;
+                transform: translateX(-50%) translateY(10px);
+                margin-bottom: 15px;
+                margin-top: 0;
             }
             .sara-speech.visible {
                 transform: translateX(-50%) translateY(0);
+            }
+            #chat-window {
+                width: calc(100% - 40px) !important;
+                right: 20px !important;
+                left: 20px !important;
+                bottom: 200px !important;
+                height: 350px !important;
             }
         }
         /* --- AI SECTION: THE UNIVERSE SPEAKS --- */
@@ -1106,13 +1117,13 @@
         .universe-panel {
             flex: 1;
             max-width: 520px;
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.35);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 24px;
             padding: 2.5rem;
-            box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.2), 0 8px 32px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 8px 32px rgba(180, 160, 210, 0.15);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -1124,7 +1135,7 @@
             font-family: 'Cormorant Garamond', serif;
             font-style: italic;
             color: #9b7fa6; /* lavender */
-            font-size: 1.6rem;
+            font-size: clamp(1.3rem, 4vw, 1.6rem);
             margin-bottom: 0.5rem;
         }
 
@@ -1139,7 +1150,7 @@
         }
 
         .wand-icon {
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 3.5vw, 1.5rem);
             color: #d4af37;
             margin-bottom: 2rem;
             animation: gentleRotate 4s infinite linear;
@@ -1193,10 +1204,6 @@
             transition: all 0.3s ease;
         }
 
-        .universe-btn:hover:not(.muted) {
-            background: rgba(255, 255, 255, 0.4);
-        }
-
         .universe-btn::after {
             content: '';
             position: absolute;
@@ -1242,11 +1249,330 @@
             .universe-panel {
                 width: 100%;
                 max-width: 100%;
+                padding: 1.5rem;
             }
+        }
+        /* Floating Side Nav */
+        .side-nav {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(200, 162, 200, 0.4);
+            border-radius: 40px;
+            padding: 20px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 100;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #5a3b42;
+            padding: 10px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .nav-item.active {
+            background: rgba(200, 162, 200, 0.2);
+            box-shadow: 0 0 15px rgba(200, 162, 200, 0.3);
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+            color: #d4af37;
+            margin-bottom: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover .nav-icon {
+            animation: shimmerIcon 1.5s infinite linear;
+        }
+
+        .nav-label {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @keyframes shimmerIcon {
+            0% { opacity: 1; filter: brightness(1); }
+            50% { opacity: 0.7; filter: brightness(1.3); }
+            100% { opacity: 1; filter: brightness(1); }
+        }
+
+        .vibe-placeholder {
+            width: 220px;
+            height: 280px;
+            background: linear-gradient(135deg, rgba(255, 228, 225, 0.3), rgba(230, 230, 250, 0.4));
+            background-size: 200% 200%;
+            animation: gradientShift 4s ease infinite;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 8px 32px rgba(180, 160, 210, 0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2rem;
+            padding: 20px;
+            text-align: center;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .vibe-dots {
+            display: flex;
+            gap: 6px;
+            margin-top: 15px;
+        }
+
+        .vibe-dot {
+            width: 6px;
+            height: 6px;
+            background-color: #c9a84c;
+            border-radius: 50%;
+            animation: dotPulse 1.5s infinite ease-in-out;
+        }
+
+        .vibe-dot:nth-child(1) { animation-delay: 0s; }
+        .vibe-dot:nth-child(2) { animation-delay: 0.2s; }
+        .vibe-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes dotPulse {
+            0%, 100% { transform: scale(0.8); opacity: 0.4; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+
+        @media (max-width: 1024px) {
+            .side-nav {
+                left: 10px;
+                padding: 15px 5px;
+            }
+            .nav-label {
+                font-size: 0.55rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .side-nav {
+                left: 50%;
+                top: auto;
+                bottom: 20px;
+                transform: translateX(-50%);
+                flex-direction: row;
+                padding: 10px 20px;
+                border-radius: 40px;
+                width: 90%;
+                max-width: 400px;
+                justify-content: space-around;
+                gap: 0;
+            }
+            .nav-item {
+                padding: 8px 15px;
+            }
+            .nav-item:hover {
+                transform: translateY(-2px);
+            }
+        }
+        /* Deep Oracle Styles */
+        .oracle-starfield {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image:
+                radial-gradient(1px 1px at 20px 30px, rgba(212, 175, 55, 0.5), rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 40px 70px, rgba(212, 175, 55, 0.8), rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 50px 160px, rgba(212, 175, 55, 0.4), rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 90px 40px, rgba(212, 175, 55, 0.6), rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 130px 80px, rgba(212, 175, 55, 0.9), rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 160px 120px, rgba(212, 175, 55, 0.3), rgba(0,0,0,0)),
+                radial-gradient(1.5px 1.5px at 180px 190px, rgba(212, 175, 55, 0.7), rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 210px 250px, rgba(212, 175, 55, 0.5), rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 250px 250px;
+            animation: twinkle 4s infinite alternate;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(1); }
+            100% { opacity: 0.6; transform: scale(1.02); }
+        }
+        .oracle-heading {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: clamp(2rem, 6vw, 3rem);
+            color: #c9a84c;
+            margin-bottom: 0.5rem;
+            animation: goldShimmer 3s infinite alternate;
+        }
+        @keyframes goldShimmer {
+            0% { text-shadow: 0 0 10px rgba(201, 168, 76, 0.2); filter: brightness(0.9); }
+            100% { text-shadow: 0 0 25px rgba(201, 168, 76, 0.6); filter: brightness(1.2); }
+        }
+        .oracle-subheading {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-style: italic;
+            color: #b39ddb;
+            font-size: 1rem;
+            margin-bottom: 3rem;
+        }
+        .oracle-panel {
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(180, 160, 210, 0.15);
+            transition: background 1s ease;
+            position: relative;
+            overflow: hidden;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+        .oracle-panel.loading-state {
+            background: rgba(42, 27, 56, 0.6);
+        }
+        .oracle-panel.loading-state .oracle-panel-starfield {
+            opacity: 1;
+        }
+        .oracle-panel-starfield {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image:
+                radial-gradient(1px 1px at 10% 20%, rgba(212, 175, 55, 0.8), rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 30% 60%, rgba(212, 175, 55, 0.6), rgba(0,0,0,0)),
+                radial-gradient(1.5px 1.5px at 70% 40%, rgba(212, 175, 55, 0.9), rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 80% 80%, rgba(212, 175, 55, 0.5), rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40% 90%, rgba(212, 175, 55, 0.7), rgba(0,0,0,0));
+            opacity: 0;
+            transition: opacity 1s ease;
+            pointer-events: none;
+            animation: twinkle 3s infinite alternate;
+        }
+        .oracle-textarea {
+            width: 100%;
+            background: transparent;
+            border: 1px solid rgba(179, 157, 219, 0.4);
+            border-radius: 16px;
+            padding: 1.5rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.3rem;
+            color: #fff;
+            resize: vertical;
+            min-height: 140px;
+            outline: none;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+        .oracle-textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        .oracle-textarea:focus {
+            border-color: #b39ddb;
+            box-shadow: inset 0 0 20px rgba(179, 157, 219, 0.15), 0 0 20px rgba(179, 157, 219, 0.15);
+            background: rgba(255, 255, 255, 0.03);
+        }
+        .oracle-submit {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            color: #c9a84c;
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 1.2rem;
+            border-radius: 16px;
+            margin-top: 1.5rem;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .oracle-submit::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-20deg);
+        }
+        .oracle-submit:hover::after {
+            animation: shimmerSweep 1.5s ease-in-out;
+        }
+        .oracle-result-card {
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 24px;
+            padding: 2.5rem;
+            margin-top: 2rem;
+            text-align: left;
+            color: #fcf4e4;
+            box-shadow: 0 8px 32px rgba(180, 160, 210, 0.15);
+        }
+        .oracle-result-text p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.1rem, 3vw, 1.25rem);
+            line-height: 1.9;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        .oracle-result-text p:not(:last-child)::after {
+            content: '✦';
+            display: block;
+            text-align: center;
+            color: rgba(201, 168, 76, 0.5);
+            font-size: 0.8rem;
+            margin-top: 1.5rem;
         }
     </style>
 </head>
 <body>
+
+    <nav class="side-nav">
+        <a href="#oracle-section" id="nav-oracle" class="nav-item">
+            <span class="nav-icon">✦</span>
+            <span class="nav-label">The Oracle</span>
+        </a>
+        <a href="#s3" id="nav-stars" class="nav-item">
+            <span class="nav-icon">✦</span>
+            <span class="nav-label">The Stars</span>
+        </a>
+        <a href="#s-universe" id="nav-wish" class="nav-item">
+            <span class="nav-icon">✦</span>
+            <span class="nav-label">The Wish</span>
+        </a>
+    </nav>
 
     <div id="root" style="display: none;"></div>
     <canvas id="confetti-canvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999;"></canvas>
@@ -1285,8 +1611,8 @@
 
     <!-- Section 2: Tribute -->
     <section id="s2">
-        <h2 class="heading fade-in-element" style="font-size: 3rem; margin-bottom: 0.5rem; color: #8a738a;">The Sara File</h2>
-        <p class="fade-in-element" style="font-family: 'Raleway', sans-serif; font-size: 1.1rem; color: #a391a3; font-style: italic; margin-bottom: 3rem; text-align: center; max-width: 600px;">A highly accurate, peer-reviewed summary of your defining traits and our daily chaos.</p>
+        <h2 class="heading fade-in-element" style="font-size: clamp(2rem, 6vw, 3rem); margin-bottom: 0.5rem; color: #8a738a;">The Sara File</h2>
+        <p class="fade-in-element" style="font-family: 'Raleway', sans-serif; font-size: clamp(0.95rem, 2vw, 1.1rem); color: #a391a3; font-style: italic; margin-bottom: 3rem; text-align: center; max-width: 600px;">A highly accurate, peer-reviewed summary of your defining traits and our daily chaos.</p>
         <div class="tribute-grid">
             <div class="glass tribute-card fade-in-element" style="transition-delay: 0.1s;">
                 <div class="tribute-icon">✅</div>
@@ -1318,7 +1644,8 @@
     <!-- AI SECTION — THE SARA SIMULATOR -->
     <section id="s-universe">
         <div class="universe-gradient"></div>
-        <h2 class="universe-header fade-in-element">The Sara Simulator</h2>
+        <h2 class="universe-header fade-in-element" style="margin-bottom: 0.5rem;">The Sara Simulator</h2>
+        <p class="fade-in-element" style="font-family: 'Raleway', sans-serif; font-weight: 300; font-style: italic; color: #b39ddb; text-align: center; margin-top: 0; margin-bottom: 3rem; font-size: 1rem;">Design your perfect day. Let the universe paint it.</p>
         
         <div class="universe-panels fade-in-element">
             <!-- LEFT PANEL — DESIGN YOUR DAY -->
@@ -1329,15 +1656,15 @@
                 
                 <div style="width: 100%; display: flex; flex-direction: column; gap: 1.5rem; margin-top: 1rem;">
                     <div>
-                        <label style="font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: #7a4b56; margin-bottom: 0.5rem; display: block;">1. The Coffee Order</label>
+                        <label style="font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: #c9a84c; margin-bottom: 0.5rem; display: block;">✦ 1. The Coffee Order</label>
                         <input type="text" id="sim-coffee" class="universe-input" placeholder="e.g. Iced Spanish Latte, V60..." maxlength="50">
                     </div>
                     <div>
-                        <label style="font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: #7a4b56; margin-bottom: 0.5rem; display: block;">2. The Shopping Spree</label>
+                        <label style="font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: #c9a84c; margin-bottom: 0.5rem; display: block;">✦ 2. The Shopping Spree</label>
                         <input type="text" id="sim-shopping" class="universe-input" placeholder="e.g. Dubai Mall, Milan, Paris..." maxlength="50">
                     </div>
                     <div>
-                        <label style="font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: #7a4b56; margin-bottom: 0.5rem; display: block;">3. The Signature Scent</label>
+                        <label style="font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: #c9a84c; margin-bottom: 0.5rem; display: block;">✦ 3. The Signature Scent</label>
                         <input type="text" id="sim-perfume" class="universe-input" placeholder="e.g. Baccarat Rouge, Le Labo..." maxlength="50">
                     </div>
                     
@@ -1352,7 +1679,14 @@
                 <div id="sim-initial" style="display: flex; flex-direction: column; align-items: center; width: 100%; transition: opacity 0.5s ease;">
                     <h3 class="panel-heading">Your Birthday Vibe</h3>
                     <p class="panel-subtext">Waiting for your selections...</p>
-                    <div class="wand-icon" style="opacity: 0.5; margin-top: 2rem;">🔮</div>
+                    <div class="vibe-placeholder">
+                        <p style="font-family: 'Cormorant Garamond', serif; font-style: italic; color: #7a4b56; font-size: 1.1rem; margin: 0;">Your vibe is taking shape...</p>
+                        <div class="vibe-dots">
+                            <div class="vibe-dot"></div>
+                            <div class="vibe-dot"></div>
+                            <div class="vibe-dot"></div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Loading State -->
@@ -1417,6 +1751,39 @@
         </div>
     </section>
 
+    <section id="oracle-section" style="position: relative; padding: 8rem 20px; text-align: center; background: #2a1b38; overflow: hidden; z-index: 10;">
+        <div class="oracle-starfield"></div>
+        
+        <div style="position: relative; z-index: 2; max-width: 800px; margin: 0 auto;">
+            <h2 class="oracle-heading fade-in-element">The Deep Oracle</h2>
+            <p class="oracle-subheading fade-in-element">Ask the universe something real.</p>
+            
+            <div class="oracle-panel fade-in-element" id="oracle-panel-container">
+                <div class="oracle-panel-starfield"></div>
+                
+                <div id="oracle-initial" style="position: relative; z-index: 3;">
+                    <textarea id="oracle-input" class="oracle-textarea" placeholder="What energy should I embrace this year?"></textarea>
+                    <button id="oracle-btn" class="oracle-submit">Consult the Cosmos ✦</button>
+                    <p id="oracle-error" style="color: #e57373; font-size: 0.9rem; margin-top: 1rem; display: none; text-align: center;"></p>
+                </div>
+                
+                <div id="oracle-loading" style="display: none; flex-direction: column; align-items: center; justify-content: center; padding: 3rem 0; position: relative; z-index: 3;">
+                    <p id="oracle-loading-text" style="font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: #d4af37; font-style: italic; transition: opacity 0.3s ease;">The cosmos is listening...</p>
+                </div>
+            </div>
+            
+            <div id="oracle-result" style="display: none; flex-direction: column; opacity: 0; transition: opacity 1s ease; position: relative; z-index: 3; width: 100%; max-width: 680px; margin: 0 auto;">
+                <div class="oracle-result-card">
+                    <div id="oracle-text" class="oracle-result-text"></div>
+                </div>
+                <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; flex-wrap: wrap;">
+                    <button id="oracle-download" class="oracle-submit" style="margin-top: 0; width: auto; padding: 1rem 2rem; font-size: 0.85rem;">Save your Oracle reading ✦</button>
+                    <button id="oracle-reset" class="oracle-submit" style="margin-top: 0; width: auto; padding: 1rem 2rem; font-size: 0.85rem; border-color: rgba(255,255,255,0.3); color: #fff;">Ask Another Question</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Sara Pet -->
     <div id="sara-pet" class="sara-pet">
         <div id="sara-speech" class="glass sara-speech"></div>
@@ -1470,6 +1837,25 @@
                 <path d="M 96 122 L 104 122" stroke="#fff" stroke-width="1" />
             </g>
         </svg>
+    </div>
+
+    <!-- Chat UI -->
+    <div id="chat-window" style="position: fixed; bottom: 120px; right: 20px; width: 320px; height: 400px; background: rgba(255, 255, 255, 0.35); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 24px; box-shadow: 0 8px 32px rgba(180, 160, 210, 0.15); display: none; flex-direction: column; z-index: 100; overflow: hidden; opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease; transform: translateY(20px);">
+        <div style="padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.3); display: flex; justify-content: space-between; align-items: center;">
+            <h3 style="font-family: 'Italiana', serif; font-size: 1.2rem; color: #7a4b56; margin: 0;">Spill the Tea with Sara</h3>
+            <button id="chat-close" style="background: none; border: none; font-size: 1.5rem; color: #a07d86; cursor: pointer; padding: 0; line-height: 1;">&times;</button>
+        </div>
+        <div id="chat-messages" style="flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; font-family: 'Raleway', sans-serif; font-size: 0.9rem;">
+            <div style="align-self: flex-start; background: rgba(255,255,255,0.5); padding: 10px 15px; border-radius: 15px; border-bottom-left-radius: 5px; color: #5a3b42; max-width: 80%;">
+                Hey bestie! It's my birthday. What's the tea? ✨
+            </div>
+        </div>
+        <div style="padding: 15px; border-top: 1px solid rgba(255,255,255,0.3); display: flex; gap: 10px;">
+            <input type="text" id="chat-input" placeholder="Say something..." style="flex: 1; background: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.5); border-radius: 20px; padding: 8px 15px; font-family: 'Raleway', sans-serif; font-size: 0.9rem; color: #5a3b42; outline: none;">
+            <button id="chat-send" style="background: #f8bbd0; color: #7a4b56; border: none; border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </button>
+        </div>
     </div>
 
     <script>
@@ -1757,12 +2143,42 @@
         });
 
         // Scroll animations
+        const navItems = [
+            { id: 'oracle-section', navId: 'nav-oracle' },
+            { id: 's3', navId: 'nav-stars' },
+            { id: 's-universe', navId: 'nav-wish' }
+        ];
+
         window.addEventListener('scroll', () => {
             document.querySelectorAll('.fade-in-element').forEach(el => {
                 if (typeof el.getBoundingClientRect === 'function') {
                     const rect = el.getBoundingClientRect();
                     if(rect.top < window.innerHeight - 100) {
                         el.classList.add('visible');
+                    }
+                }
+            });
+
+            // Side Nav Active State
+            let currentSectionId = '';
+            navItems.forEach(item => {
+                const section = document.getElementById(item.id);
+                if (section) {
+                    const rect = section.getBoundingClientRect();
+                    // If the section is in the middle of the viewport
+                    if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+                        currentSectionId = item.id;
+                    }
+                }
+            });
+
+            navItems.forEach(item => {
+                const navElement = document.getElementById(item.navId);
+                if (navElement) {
+                    if (item.id === currentSectionId) {
+                        navElement.classList.add('active');
+                    } else {
+                        navElement.classList.remove('active');
                     }
                 }
             });
@@ -1942,26 +2358,7 @@
             if (isInteracting) return;
             idleTime = 0;
 
-            // Show loading shimmer in speech bubble
-            clearTimeout(speechTimeout);
-            speech.innerHTML = '<span style="animation: pulseOrb 1s infinite alternate; display: inline-block;">✨✨✨</span>';
-            speech.classList.add('visible');
-
-            try {
-                const response = await fetch('/api/chat', { method: 'POST' });
-                const data = await response.json();
-                
-                if (!response.ok) throw new Error(data.error || 'Failed to fetch');
-                
-                let text = data.text.replace(/["']/g, '');
-                showSpeech(text, 3500);
-            } catch (error) {
-                console.error(error);
-                let qIndex;
-                do { qIndex = Math.floor(Math.random() * quotes.length); } while (qIndex === lastQuoteIndex);
-                lastQuoteIndex = qIndex;
-                showSpeech(quotes[qIndex]);
-            }
+            toggleChat();
         });
         
         sara.addEventListener('dblclick', () => {
@@ -1988,7 +2385,7 @@
         function updateSara() {
             if (isMobile) {
                 sara.style.transform = 'scale(0.6)';
-                sara.style.bottom = '10px';
+                sara.style.bottom = '80px';
                 sara.style.right = '10px';
                 sara.style.left = 'auto';
                 sara.style.top = 'auto';
@@ -2075,7 +2472,7 @@
             isMobile = window.innerWidth <= 768;
             if (isMobile) {
                 sara.style.transform = 'scale(0.6)';
-                sara.style.bottom = '10px';
+                sara.style.bottom = '80px';
                 sara.style.right = '10px';
                 sara.style.left = 'auto';
                 sara.style.top = 'auto';
@@ -2099,7 +2496,7 @@
             updateSara();
         } else {
             sara.style.transform = 'scale(0.6)';
-            sara.style.bottom = '10px';
+            sara.style.bottom = '80px';
             sara.style.right = '10px';
             sara.style.left = 'auto';
             sara.style.top = 'auto';
@@ -2139,6 +2536,7 @@
             const coffee = simCoffee.value.trim();
             const shopping = simShopping.value.trim();
             const perfume = simPerfume.value.trim();
+            const imageSize = '4K'; // Hardcoded to highest quality
             
             if (!coffee || !shopping || !perfume) return;
 
@@ -2168,7 +2566,7 @@
                 const response = await fetch('/api/generate', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ coffee, shopping, perfume })
+                    body: JSON.stringify({ coffee, shopping, perfume, imageSize })
                 });
                 
                 const data = await response.json();
@@ -2215,6 +2613,225 @@
                 simInitial.style.display = 'flex';
             }, 500);
         });
+
+        // --- Section 4: Chatbot Logic ---
+        const chatWindow = document.getElementById('chat-window');
+        const chatClose = document.getElementById('chat-close');
+        const chatMessages = document.getElementById('chat-messages');
+        const chatInput = document.getElementById('chat-input');
+        const chatSend = document.getElementById('chat-send');
+        
+        let chatHistory = [];
+        let isChatOpen = false;
+
+        function toggleChat() {
+            if (isChatOpen) {
+                chatWindow.style.opacity = 0;
+                chatWindow.style.transform = 'translateY(20px)';
+                setTimeout(() => { chatWindow.style.display = 'none'; }, 300);
+            } else {
+                chatWindow.style.display = 'flex';
+                // Trigger reflow
+                void chatWindow.offsetWidth;
+                chatWindow.style.opacity = 1;
+                chatWindow.style.transform = 'translateY(0)';
+                chatInput.focus();
+            }
+            isChatOpen = !isChatOpen;
+        }
+
+        chatClose.addEventListener('click', toggleChat);
+
+        function addMessage(text, isUser) {
+            const msgDiv = document.createElement('div');
+            msgDiv.style.alignSelf = isUser ? 'flex-end' : 'flex-start';
+            msgDiv.style.background = isUser ? '#f8bbd0' : 'rgba(255,255,255,0.5)';
+            msgDiv.style.color = '#5a3b42';
+            msgDiv.style.padding = '10px 15px';
+            msgDiv.style.borderRadius = '15px';
+            msgDiv.style.borderBottomRightRadius = isUser ? '5px' : '15px';
+            msgDiv.style.borderBottomLeftRadius = isUser ? '15px' : '5px';
+            msgDiv.style.maxWidth = '80%';
+            msgDiv.style.lineHeight = '1.4';
+            msgDiv.textContent = text;
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        async function handleChatSend() {
+            const text = chatInput.value.trim();
+            if (!text) return;
+
+            addMessage(text, true);
+            chatInput.value = '';
+            chatInput.disabled = true;
+            chatSend.style.opacity = '0.5';
+
+            const userMessage = { role: 'user', parts: [{ text }] };
+            const currentHistory = [...chatHistory];
+            chatHistory.push(userMessage);
+
+            // Add typing indicator
+            const typingDiv = document.createElement('div');
+            typingDiv.id = 'typing-indicator';
+            typingDiv.style.alignSelf = 'flex-start';
+            typingDiv.style.background = 'rgba(255,255,255,0.5)';
+            typingDiv.style.padding = '10px 15px';
+            typingDiv.style.borderRadius = '15px';
+            typingDiv.style.borderBottomLeftRadius = '5px';
+            typingDiv.innerHTML = '<span style="animation: pulseOrb 1s infinite alternate; display: inline-block;">✨✨✨</span>';
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text, history: currentHistory })
+                });
+                
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || 'Failed to fetch');
+                
+                const replyText = data.text.replace(/["']/g, '');
+                chatHistory.push({ role: 'model', parts: [{ text: replyText }] });
+                
+                document.getElementById('typing-indicator').remove();
+                addMessage(replyText, false);
+                showSpeech(replyText, 4000); // Also show in the speech bubble!
+            } catch (error) {
+                console.error(error);
+                document.getElementById('typing-indicator').remove();
+                addMessage("Ugh, the universe is glitching. Try again bestie. ✨", false);
+                chatHistory.pop(); // Remove the user message from history since it failed
+            } finally {
+                chatInput.disabled = false;
+                chatSend.style.opacity = '1';
+                chatInput.focus();
+            }
+        }
+
+        chatSend.addEventListener('click', handleChatSend);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleChatSend();
+        });
+
+        // --- Section 5: Oracle Logic ---
+        const oracleBtn = document.getElementById('oracle-btn');
+        const oracleInput = document.getElementById('oracle-input');
+        const oracleInitial = document.getElementById('oracle-initial');
+        const oracleLoading = document.getElementById('oracle-loading');
+        const oracleResult = document.getElementById('oracle-result');
+        const oracleText = document.getElementById('oracle-text');
+        const oracleError = document.getElementById('oracle-error');
+        const oracleReset = document.getElementById('oracle-reset');
+
+        let oracleLoadingInterval;
+        oracleBtn.addEventListener('click', async () => {
+            const question = oracleInput.value.trim();
+            if (!question) return;
+
+            oracleBtn.disabled = true;
+            oracleBtn.classList.add('muted');
+            oracleBtn.textContent = 'Consulting...';
+            oracleError.style.display = 'none';
+
+            oracleInitial.style.display = 'none';
+            oracleLoading.style.display = 'flex';
+            
+            const panelContainer = document.getElementById('oracle-panel-container');
+            if(panelContainer) panelContainer.classList.add('loading-state');
+            
+            const loadingTexts = [
+                "The cosmos is listening...",
+                "Reading between the stars...",
+                "Almost ready..."
+            ];
+            let textIndex = 0;
+            const loadingTextEl = document.getElementById('oracle-loading-text');
+            if(loadingTextEl) {
+                loadingTextEl.textContent = loadingTexts[0];
+                oracleLoadingInterval = setInterval(() => {
+                    textIndex = (textIndex + 1) % loadingTexts.length;
+                    loadingTextEl.style.opacity = 0;
+                    setTimeout(() => {
+                        loadingTextEl.textContent = loadingTexts[textIndex];
+                        loadingTextEl.style.opacity = 1;
+                    }, 300);
+                }, 2500);
+            }
+
+            try {
+                const response = await fetch('/api/oracle', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question })
+                });
+                
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || "Failed to read the stars");
+
+                oracleText.innerHTML = data.html;
+                
+                clearInterval(oracleLoadingInterval);
+                if(panelContainer) panelContainer.classList.remove('loading-state');
+                if(panelContainer) panelContainer.style.display = 'none';
+                
+                oracleLoading.style.display = 'none';
+                oracleInitial.style.display = 'block';
+                
+                oracleBtn.disabled = false;
+                oracleBtn.textContent = 'Consult the Cosmos ✦';
+                oracleBtn.classList.remove('muted');
+                
+                oracleResult.style.display = 'flex';
+                setTimeout(() => { oracleResult.style.opacity = 1; }, 100);
+
+            } catch (error) {
+                console.error("Oracle API Error:", error);
+                clearInterval(oracleLoadingInterval);
+                if(panelContainer) panelContainer.classList.remove('loading-state');
+                
+                oracleLoading.style.display = 'none';
+                oracleInitial.style.display = 'block';
+                
+                const errorMessage = error.message || error.toString();
+                oracleError.textContent = `Oops! ${errorMessage}. Please try again ✨`;
+                oracleError.style.display = 'block';
+                
+                oracleBtn.disabled = false;
+                oracleBtn.textContent = 'Consult the Cosmos ✦';
+                oracleBtn.classList.remove('muted');
+            }
+        });
+
+        oracleReset.addEventListener('click', () => {
+            const panelContainer = document.getElementById('oracle-panel-container');
+            if(panelContainer) panelContainer.style.display = 'block';
+            oracleResult.style.opacity = 0;
+            setTimeout(() => {
+                oracleResult.style.display = 'none';
+                oracleInput.value = '';
+                oracleInitial.style.display = 'block';
+                oracleBtn.disabled = false;
+                oracleBtn.textContent = 'Consult the Cosmos ✦';
+                oracleBtn.classList.remove('muted');
+            }, 500);
+        });
+
+        const oracleDownload = document.getElementById('oracle-download');
+        if(oracleDownload) {
+            oracleDownload.addEventListener('click', () => {
+                const text = document.getElementById('oracle-text').innerText;
+                const blob = new Blob([text], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'Oracle_Reading.txt';
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+        }
     </script>
 </body>
 </html>

@@ -5,7 +5,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { coffee, shopping, perfume } = req.body;
+  const { coffee, shopping, perfume, imageSize = '1K' } = req.body;
 
   if (!coffee || !shopping || !perfume) {
     return res.status(400).json({ error: 'Missing required fields' });
@@ -23,9 +23,9 @@ export default async function handler(req, res) {
     const imagePrompt = `A soft, ethereal, aesthetic flatlay or scene inspired by: ${coffee} coffee, shopping at ${shopping}, and ${perfume} perfume. Iridescent pastels, blush and lavender tones, dreamy, magical, luxurious, elegant. No text in image.`;
     
     const imageResponse = await ai.models.generateContent({
-        model: 'gemini-2.5-flash-image',
+        model: 'gemini-3-pro-image-preview',
         contents: { parts: [{ text: imagePrompt }] },
-        config: { imageConfig: { aspectRatio: "16:9" } }
+        config: { imageConfig: { aspectRatio: "16:9", imageSize: imageSize } }
     });
     
     let imageUrl = '';
